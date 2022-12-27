@@ -28,7 +28,6 @@ def run_command(
     return _activate
 
 
-
 def test_output_version(poetry_io: BufferedIO, run_command) -> None:
     run_command("build")
     expected = "poem-plugins: Setting version to: 1.2.0+gg3c3e199\n"

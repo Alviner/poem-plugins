@@ -3,6 +3,7 @@ from dataclasses import dataclass
 
 from cleo.events.console_command_event import ConsoleCommandEvent
 from cleo.events.console_events import COMMAND
+from cleo.events.event import Event
 from cleo.events.event_dispatcher import EventDispatcher
 from poetry.console.application import Application
 from poetry.console.commands.build import BuildCommand
@@ -34,6 +35,13 @@ class BaseVersionPlugin(BasePlugin, IVersionPlugin, abc.ABC):
         "__version__ = \"{version}\"\n"
     )
 
+    def activate(self, application: Application) -> None:
+        if not application.event_dispatcher:
+            return
+        application.event_dispatcher.add_listener(
+            COMMAND, self._set_version,
+        )
+
     def _write_pyproject(
         self, poetry: Poetry, version: Version, config: Config,
     ) -> None:
@@ -63,14 +71,12 @@ class BaseVersionPlugin(BasePlugin, IVersionPlugin, abc.ABC):
                     version=str(version),
                 ),
             )
-    def activate(self, application: Application) -> None:
-        if not application.event_dispatcher:
-            return
-        application.event_dispatcher.add_listener(
-            COMMAND, self._set_version,
-        )
 
-    def _set_version(self, event: ConsoleCommandEvent, event_name: str, dispatcher: EventDispatcher) -> None:
+    def _set_version(
+        self, event: Event, event_name: str, dispatcher: EventDispatcher,
+    ) -> None:
+        if not isinstance(event, ConsoleCommandEvent):
+            return
         command = event.command
         if not isinstance(command, BuildCommand):
             return

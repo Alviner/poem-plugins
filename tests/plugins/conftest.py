@@ -28,6 +28,7 @@ def env(simple_project: Path) -> MockEnv:
     path.mkdir(parents=True)
     return MockEnv(path=path, is_venv=True)
 
+
 @pytest.fixture
 def poetry_io() -> BufferedIO:
     return BufferedIO()
@@ -37,8 +38,14 @@ def poetry_io() -> BufferedIO:
 def poetry_application(
     simple_project: Path, poetry_io: BufferedIO, env: MockEnv, mocker,
 ) -> PoetryTestApplication:
-    mocker.patch("poetry.utils.env.EnvManager.create_venv", return_value=env)
-    mocker.patch("poetry.core.masonry.builders.builder.Builder.build", return_value=None)
+    mocker.patch(
+        "poetry.utils.env.EnvManager.create_venv",
+        return_value=env,
+    )
+    mocker.patch(
+        "poetry.core.masonry.builders.builder.Builder.build",
+        return_value=None,
+    )
 
     base_poetry = Factory().create_poetry(cwd=simple_project)
     locker = Locker(

@@ -26,7 +26,6 @@ def tmpdir():
     return _getter
 
 
-
 @pytest.fixture(autouse=True)
 def simple_project(tmpdir) -> Iterator[Path]:
     with tmpdir(prefix="projects_") as dir:
