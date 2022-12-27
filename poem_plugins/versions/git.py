@@ -55,7 +55,7 @@ class BaseVersionPlugin(BasePlugin, IVersionPlugin, abc.ABC):
     def _write_module(
         self, poetry: Poetry, version: Version, config: Config,
     ) -> None:
-        if not config.update_pyproject:
+        if not config.write_version_file:
             return
         package_name = module_name(poetry.package.name)
         with open(f"{package_name}/version.py", "w+") as file:
