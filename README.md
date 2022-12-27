@@ -18,6 +18,13 @@ Install this plugin to your Poetry:
 $ poetry self add poem-plugins
 ```
 
+Add tool section in project pyproject.toml
+
+```yaml
+[tool.poem-plugins]
+version_plugin = "git-long"
+```
+
 Create a git tag, for example:
 
 ```console
