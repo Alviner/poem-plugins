@@ -1,38 +1,47 @@
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
-from cleo.io.buffered_io import BufferedIO
-from poetry.plugins import Plugin
-from poetry.plugins.plugin_manager import PluginManager
-from poetry.poetry import Poetry
-import pytest
-from poem_plugins.general.version_driver.base import Version
 
+import pytest
+from cleo.io.buffered_io import BufferedIO
+from poetry.plugins.application_plugin import ApplicationPlugin
+from poetry.plugins.plugin_manager import PluginManager
+from poetry.utils.env import MockEnv
+
+from poem_plugins.general.versions import Version
 from poem_plugins.versions.git import GitLongVersionPlugin
+from tests.plugins.conftest import PoetryTestApplication
 
 
 @pytest.fixture
-def run_plugin(poetry: Poetry, poetry_io: BufferedIO):
-    def _activate():
-        plugin_manager = PluginManager(Plugin.group)
-        plugin_manager.add_plugin(GitLongVersionPlugin())
-        plugin_manager.activate(poetry, poetry_io)
+def run_command(
+    poetry_application: PoetryTestApplication, env: MockEnv,
+):
+    plugin_manager = PluginManager(ApplicationPlugin.group)
+    plugin_manager.add_plugin(GitLongVersionPlugin())
+    plugin_manager.activate(poetry_application)
+
+    def _activate(command: str):
+        cmd = poetry_application.find(command)
+        if hasattr(cmd, "set_env"):
+            cmd.set_env(env)
+        poetry_application.run_command(cmd)
     return _activate
 
 
 
-def test_output_version(poetry_io: BufferedIO, run_plugin) -> None:
-    run_plugin()
-    expected = 'poem-plugins: Setting version to: 1.2.0+gg3c3e199\n'
-    assert poetry_io.fetch_output() == expected
+def test_output_version(poetry_io: BufferedIO, run_command) -> None:
+    run_command("build")
+    expected = "poem-plugins: Setting version to: 1.2.0+gg3c3e199\n"
+    assert poetry_io.fetch_output().startswith(expected)
 
 
 def test_file_version(
-    simple_project: Path, expected_version: Version, run_plugin,
+    simple_project: Path, expected_version: Version, run_command,
 ) -> None:
-    run_plugin()
+    run_command("build")
     version_path = simple_project / "simple_project" / "version.py"
     spec = spec_from_file_location(
-        "simple_project.version", version_path
+        "simple_project.version", version_path,
     )
     assert spec
     version_module = module_from_spec(spec)
@@ -46,9 +55,10 @@ def test_file_version(
 
 
 def test_pyproject_version(
-    poetry: Poetry, expected_version: Version, run_plugin,
+    poetry_application: PoetryTestApplication,
+    expected_version: Version, run_command,
 ) -> None:
-    run_plugin()
-    content = poetry.file.read()
+    run_command("build")
+    content = poetry_application.poetry.file.read()
     poetry_content = content["tool"]["poetry"]
     assert poetry_content["version"] == str(expected_version)

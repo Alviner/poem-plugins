@@ -1,11 +1,12 @@
 import re
-from shutil import which
 import subprocess
+import warnings
+from shutil import which
 from types import MappingProxyType
 from typing import Any, Callable, ClassVar, Mapping, Match, Optional
-import warnings
 
-from poem_plugins.general.version_driver.base import IVervsionDriver, Version
+from poem_plugins.general.versions import Version
+from poem_plugins.general.versions.drivers import IVervsionDriver
 
 
 GIT_BIN = which("git")
@@ -19,9 +20,9 @@ if GIT_BIN is None:
 class GitLongVersionDriver(IVervsionDriver):
     CONVERTERS: ClassVar[Mapping[str, Callable[[Any], Any]]] = (
         MappingProxyType({
-            'major': int,
-            'minor': int,
-            'patch': int,
+            "major": int,
+            "minor": int,
+            "patch": int,
         })
     )
 
@@ -32,7 +33,7 @@ class GitLongVersionDriver(IVervsionDriver):
         result = subprocess.run(
             [GIT_BIN, "describe", "--long"],
             stdout=subprocess.PIPE,
-            universal_newlines=True,
+            text=True,
         )
 
         if result.returncode != 0:

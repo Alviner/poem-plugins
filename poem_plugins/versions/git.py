@@ -1,15 +1,20 @@
 import abc
 from dataclasses import dataclass
 
-from cleo.io.io import IO
+from cleo.events.console_command_event import ConsoleCommandEvent
+from cleo.events.console_events import COMMAND
+from cleo.events.event_dispatcher import EventDispatcher
+from poetry.console.application import Application
+from poetry.console.commands.build import BuildCommand
 from poetry.core.utils.helpers import module_name
 from poetry.poetry import Poetry
 from tomlkit.toml_document import TOMLDocument
 
 from poem_plugins.base import BasePlugin
 from poem_plugins.config import Config, VersionEnum
-from poem_plugins.general.version_driver.base import IVervsionDriver, Version
-from poem_plugins.general.version_driver.git import GitLongVersionDriver
+from poem_plugins.general.versions import Version
+from poem_plugins.general.versions.drivers import IVervsionDriver
+from poem_plugins.general.versions.drivers.git import GitLongVersionDriver
 
 
 class IVersionPlugin(abc.ABC):
@@ -50,8 +55,19 @@ class BaseVersionPlugin(BasePlugin, IVersionPlugin, abc.ABC):
                     version=str(version),
                 ),
             )
+    def activate(self, application: Application) -> None:
+        if not application.event_dispatcher:
+            return
+        application.event_dispatcher.add_listener(
+            COMMAND, self._set_version,
+        )
 
-    def activate(self, poetry: Poetry, io: IO) -> None:
+    def _set_version(self, event: ConsoleCommandEvent, event_name: str, dispatcher: EventDispatcher) -> None:
+        command = event.command
+        if not isinstance(command, BuildCommand):
+            return
+        io = event.io
+        poetry = command.poetry
         config: Config = self.get_config(poetry)
         if not self._should_be_used(config):
             return

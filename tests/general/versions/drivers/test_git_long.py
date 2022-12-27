@@ -1,4 +1,5 @@
-from poem_plugins.general.version_driver.base import IVervsionDriver, Version
+from poem_plugins.general.versions import Version
+from poem_plugins.general.versions.drivers import IVervsionDriver
 
 
 def test_get_version(

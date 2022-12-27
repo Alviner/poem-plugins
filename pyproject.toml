@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "poem-plugins"
-version = "0.11.0"
+version = "0.12.0"
 description = "Some set of poetry plugins"
 authors = ["Ivan Sitkin <alvinera@yandex.ru>"]
 homepage = "https://github.com/alviner/poem-plugins"
@@ -35,6 +35,8 @@ pytest = "^7.2.0"
 debugpy = "^1.6.4"
 pytest-cov = "^4.0.0"
 coveralls = "^3.3.1"
+pytest-mock = "^3.10.0"
+gray = "^0.13.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -67,5 +69,5 @@ skip_empty = true
 branch = true
 source = ["poem_plugins"]
 
-[tool.poetry.plugins."poetry.plugin"]
+[tool.poetry.plugins."poetry.application.plugin"]
 poem-git-long-version-plugin = "poem_plugins.versions.git:GitLongVersionPlugin"

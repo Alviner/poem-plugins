@@ -1,5 +1,6 @@
 import pytest
-from poem_plugins.general.version_driver.git import GitLongVersionDriver
+
+from poem_plugins.general.versions.drivers.git import GitLongVersionDriver
 
 
 @pytest.fixture
