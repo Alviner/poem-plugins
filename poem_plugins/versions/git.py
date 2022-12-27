@@ -1,7 +1,6 @@
 import abc
 import re
 import subprocess
-import sys
 import warnings
 from shutil import which
 from typing import Match, NamedTuple, Optional
@@ -64,7 +63,7 @@ class BaseVersionPlugin(BasePlugin, IVersionPlugin, abc.ABC):
         io.write_line(
             f"<b>poem-plugins</b>: Setting version to: {version}",
         )
-        poetry.package.version = version  # type: ignore
+        poetry.package.version = str(version)  # type: ignore
 
         package_name = module_name(poetry.package.name)
         with open(f"{package_name}/version.py", "w") as file:

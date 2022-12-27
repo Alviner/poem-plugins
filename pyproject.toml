@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "poem-plugins"
-version = "0.8.0"
+version = "0.9.0"
 description = "Some set of poetry plugins"
 authors = ["Ivan Sitkin <alvinera@yandex.ru>"]
 homepage = "https://github.com/alviner/poem-plugins"
