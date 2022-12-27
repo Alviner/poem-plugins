@@ -61,9 +61,10 @@ jobs:
             tests
         env:
           FORCE_COLOR: 1
-      - run: poetry run coveralls
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
   finish:
     needs:
