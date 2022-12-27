@@ -3,11 +3,12 @@ import re
 import subprocess
 import warnings
 from shutil import which
-from typing import Match, NamedTuple, Optional
+from typing import Any, Match, NamedTuple, Optional
 
 from cleo.io.io import IO
 from poetry.core.utils.helpers import module_name
 from poetry.poetry import Poetry
+from tomlkit.toml_document import TOMLDocument
 
 from poem_plugins.base import BasePlugin
 from poem_plugins.config import Config, VersionEnum
@@ -64,6 +65,11 @@ class BaseVersionPlugin(BasePlugin, IVersionPlugin, abc.ABC):
             f"<b>poem-plugins</b>: Setting version to: {version}",
         )
         poetry.package.version = str(version)  # type: ignore
+
+        content: TOMLDocument  = poetry.file.read()
+        poetry_content = content["tool"]["poetry"]
+        poetry_content["version"] = poetry.package.version.text
+        poetry.file.write(content)
 
         package_name = module_name(poetry.package.name)
         with open(f"{package_name}/version.py", "w") as file:
