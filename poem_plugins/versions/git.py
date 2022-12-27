@@ -42,7 +42,7 @@ class BaseVersionPlugin(BasePlugin, IVersionPlugin, abc.ABC):
 
     def _write_module(self, poetry: Poetry, version: Version) -> None:
         package_name = module_name(poetry.package.name)
-        with open(f"{package_name}/version.py", "w") as file:
+        with open(f"{package_name}/version.py", "w+") as file:
             file.write(
                 self.VERSION_TEMPLATE.format(
                     whoami=".".join((
