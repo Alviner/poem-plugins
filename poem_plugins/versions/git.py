@@ -4,17 +4,17 @@ import subprocess
 import sys
 import warnings
 from shutil import which
-from typing import Match, Optional, NamedTuple
+from typing import Match, NamedTuple, Optional
 
 from cleo.io.io import IO
-from poetry.poetry import Poetry
 from poetry.core.utils.helpers import module_name
+from poetry.poetry import Poetry
 
 from poem_plugins.base import BasePlugin
 from poem_plugins.config import Config, VersionEnum
 
 
-GIT_BIN = which('git')
+GIT_BIN = which("git")
 WARNING_TEXT = (
     '"git" binary was not found, this plugin this will not work properly'
 )
@@ -62,7 +62,7 @@ class BaseVersionPlugin(BasePlugin, IVersionPlugin, abc.ABC):
             raise exc
 
         io.write_line(
-            f"<b>poem-plugins</b>: Setting version to: {version}"
+            f"<b>poem-plugins</b>: Setting version to: {version}",
         )
         poetry.package.version = version  # type: ignore
 
@@ -72,13 +72,13 @@ class BaseVersionPlugin(BasePlugin, IVersionPlugin, abc.ABC):
                 self.VERSION_TEMPLATE.format(
                     whoami=".".join((
                         self.__class__.__module__,
-                        self.__class__.__name__
+                        self.__class__.__name__,
                     )),
                     major=version.major,
                     minor=version.minor,
                     patch=version.patch,
                     version=str(version),
-                )
+                ),
             )
         return
 
@@ -101,8 +101,8 @@ class GitLongVersionPlugin(BaseVersionPlugin):
             raise RuntimeError("Cannot found git version")
 
         match: Optional[Match[str]] = re.match(
-            config.git_version_prefix + r'(\d+)\.(\d+)-(\d+)-(\S+)',
-            result.stdout.strip()
+            config.git_version_prefix + r"(\d+)\.(\d+)-(\d+)-(\S+)",
+            result.stdout.strip(),
         )
 
         if match is None:
