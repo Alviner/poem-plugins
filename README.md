@@ -20,9 +20,11 @@ $ poetry self add poem-plugins
 
 Add tool section in project pyproject.toml
 
-```yaml
+```toml
 [tool.poem-plugins]
 version_plugin = "git-long"
+# Version tags must be starts with this prefix
+git_version_prefix = "v"
 ```
 
 Create a git tag, for example:

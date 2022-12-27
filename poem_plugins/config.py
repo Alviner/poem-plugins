@@ -11,3 +11,4 @@ class VersionEnum(StrEnum):
 @dataclass
 class Config:
     version_plugin: Optional[VersionEnum] = None
+    git_version_prefix: str = 'v'
