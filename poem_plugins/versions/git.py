@@ -49,7 +49,7 @@ class GitLongVersionPlugin(BaseVersionPlugin):
 
     def _get_version(self) -> str:
         result = subprocess.run(
-            ["git", "describe"],
+            ["git", "describe", "--long"],
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             universal_newlines=True,
