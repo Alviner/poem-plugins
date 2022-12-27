@@ -12,3 +12,5 @@ class VersionEnum(StrEnum):
 class Config:
     version_plugin: Optional[VersionEnum] = None
     git_version_prefix: str = "v"
+    update_pyproject: bool = False
+    write_version_file: bool = False

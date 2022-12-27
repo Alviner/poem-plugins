@@ -34,13 +34,21 @@ class BaseVersionPlugin(BasePlugin, IVersionPlugin, abc.ABC):
         "__version__ = \"{version}\"\n"
     )
 
-    def _write_pyproject(self, poetry: Poetry, version: Version) -> None:
+    def _write_pyproject(
+        self, poetry: Poetry, version: Version, config: Config,
+    ) -> None:
+        if not config.update_pyproject:
+            return
         content: TOMLDocument = poetry.file.read()
         poetry_content = content["tool"]["poetry"]  # type: ignore
         poetry_content["version"] = str(version)  # type: ignore
         poetry.file.write(content)
 
-    def _write_module(self, poetry: Poetry, version: Version) -> None:
+    def _write_module(
+        self, poetry: Poetry, version: Version, config: Config,
+    ) -> None:
+        if not config.update_pyproject:
+            return
         package_name = module_name(poetry.package.name)
         with open(f"{package_name}/version.py", "w+") as file:
             file.write(
@@ -82,8 +90,8 @@ class BaseVersionPlugin(BasePlugin, IVersionPlugin, abc.ABC):
         )
         poetry.package.version = str(version)  # type: ignore
 
-        self._write_pyproject(poetry, version)
-        self._write_module(poetry, version)
+        self._write_pyproject(poetry, version, config)
+        self._write_module(poetry, version, config)
 
 
 @dataclass
