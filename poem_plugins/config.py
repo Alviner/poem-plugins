@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 
 from poem_plugins.general.strenum import StrEnum
 
@@ -9,4 +10,4 @@ class VersionEnum(StrEnum):
 
 @dataclass
 class Config:
-    version_plugin: VersionEnum = VersionEnum.GIT_LONG
+    version_plugin: Optional[VersionEnum] = None
