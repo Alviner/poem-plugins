@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "poem-plugins"
-version = "0.7.0"
+version = "0.8.0"
 description = "Some set of poetry plugins"
 authors = ["Ivan Sitkin <alvinera@yandex.ru>"]
 homepage = "https://github.com/alviner/poem-plugins"
@@ -62,9 +62,6 @@ skip_empty = true
 [tool.coverage.run]
 branch = true
 source = ["poem_plugins"]
-
-[tool.poem-plugins]
-version_plugin = "git-long"
 
 [tool.poetry.plugins."poetry.plugin"]
 poem-git-long-version-plugin = "poem_plugins.versions.git:GitLongVersionPlugin"
