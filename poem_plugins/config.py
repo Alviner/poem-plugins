@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from poem.general.strenum import StrEnum
+from poem_plugins.general.strenum import StrEnum
 
 
 class VersionEnum(StrEnum):

@@ -7,8 +7,8 @@ from cleo.io.io import IO
 from poetry.poetry import Poetry
 from poetry.core.utils.helpers import module_name
 
-from poem.base import BasePlugin
-from poem.config import Config, VersionEnum
+from poem_plugins.base import BasePlugin
+from poem_plugins.config import Config, VersionEnum
 
 
 class IVersionPlugin(abc.ABC):
@@ -29,11 +29,11 @@ class BaseVersionPlugin(BasePlugin, IVersionPlugin, abc.ABC):
         try:
             version = self._get_version()
         except Exception as exc:
-            io.write_error_line(f"<b>poem</b>: {exc}")
+            io.write_error_line(f"<b>poem-plugins</b>: {exc}")
             raise exc
 
         io.write_line(
-            f"<b>poem</b>: Setting version to: {version}"
+            f"<b>poem-plugins</b>: Setting version to: {version}"
         )
         poetry.package.version = version  # type: ignore
 

@@ -1,9 +1,9 @@
 [tool.poetry]
-name = "poem"
-version = "0.1.0"
+name = "poem-plugins"
+version = "0.2.0"
 description = "Some set of poetry plugins"
 authors = ["Ivan Sitkin <alvinera@yandex.ru>"]
-homepage = "https://github.com/alviner/poem"
+homepage = "https://github.com/alviner/poem-plugins"
 license = "mit"
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -22,7 +22,7 @@ classifiers = [
     "Programming Language :: Python",
 ]
 readme = "README.md"
-packages = [{include = "poem"}]
+packages = [{include = "poem_plugins"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -46,10 +46,10 @@ pretty = true
 show_error_codes = true
 strict = true
 warn_return_any = false
-files = "poem/**/*.py"
+files = "poem_plugins/**/*.py"
 
 [tool.pylama]
-paths = "poem"
+paths = "poem_plugins"
 skip = "*/.venv/*,*/build/*"
 linters = "pycodestyle,pyflakes,mccabe"
 
@@ -61,7 +61,7 @@ skip_empty = true
 
 [tool.coverage.run]
 branch = true
-source = ["poem"]
+source = ["poem_plugins"]
 
 [tool.poetry.plugins."poetry.plugin"]
-poem-git-long-version-plugin = "poem.versions.git:GitLongVersionPlugin"
+poem-git-long-version-plugin = "poem_plugins.versions.git:GitLongVersionPlugin"
