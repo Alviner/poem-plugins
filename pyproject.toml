@@ -4,7 +4,7 @@ version = "0.11.0"
 description = "Some set of poetry plugins"
 authors = ["Ivan Sitkin <alvinera@yandex.ru>"]
 homepage = "https://github.com/alviner/poem-plugins"
-license = "mit"
+license = "MIT"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Environment :: Console",
@@ -31,6 +31,10 @@ poetry = "^1.2"
 [tool.poetry.group.dev.dependencies]
 mypy = "^0.991"
 pylama = "^8.4.1"
+pytest = "^7.2.0"
+debugpy = "^1.6.4"
+pytest-cov = "^4.0.0"
+coveralls = "^3.3.1"
 
 [build-system]
 requires = ["poetry-core"]
