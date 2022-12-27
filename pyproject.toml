@@ -1,0 +1,67 @@
+[tool.poetry]
+name = "poem"
+version = "0.1.0"
+description = "Some set of poetry plugins"
+authors = ["Ivan Sitkin <alvinera@yandex.ru>"]
+homepage = "https://github.com/alviner/poem"
+license = "mit"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python",
+]
+readme = "README.md"
+packages = [{include = "poem"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+poetry = "^1.2"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^0.991"
+pylama = "^8.4.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+allow_subclassing_any = true
+allow_untyped_calls = true
+allow_untyped_decorators = true
+ignore_missing_imports = true
+implicit_reexport = true
+pretty = true
+show_error_codes = true
+strict = true
+warn_return_any = false
+files = "poem/**/*.py"
+
+[tool.pylama]
+paths = "poem"
+skip = "*/.venv/*,*/build/*"
+linters = "pycodestyle,pyflakes,mccabe"
+
+[tool.pylama.linter.pycodestyle]
+max_line_length = 80
+
+[tool.coverage.report]
+skip_empty = true
+
+[tool.coverage.run]
+branch = true
+source = ["poem"]
+
+[tool.poetry.plugins."poetry.plugin"]
+poem-git-long-version-plugin = "poem.versions.git:GitLongVersionPlugin"
