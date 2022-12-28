@@ -7,7 +7,7 @@ from typing import Iterator, Optional
 
 import pytest
 
-from poem_plugins.general.versions import Version
+from poem_plugins.general.version import Version
 
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -37,5 +37,9 @@ def simple_project(tmpdir) -> Iterator[Path]:
 
 
 @pytest.fixture
-def expected_version() -> Version:
+def expected_long_version() -> Version:
     return Version(1, 2, 0, "g3c3e199")
+
+@pytest.fixture
+def expected_version() -> Version:
+    return Version(1, 2, 0)

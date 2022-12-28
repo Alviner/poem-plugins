@@ -8,23 +8,23 @@ from poetry.core.utils.helpers import module_name
 from poetry.poetry import Poetry
 from tomlkit.toml_document import TOMLDocument
 
-from poem_plugins.config import Config, VersionEnum
-from poem_plugins.general.versions import Version
-from poem_plugins.general.versions.drivers import IVervsionDriver
-from poem_plugins.general.versions.drivers.git import GitLongVersionDriver
+from poem_plugins.config import VersionConfig, VersionProviderEnum
+from poem_plugins.general.version import Version
+from poem_plugins.general.version.drivers import IVervsionDriver
+from poem_plugins.general.version.drivers.git import GitVersionDriver
 
 
 @dataclass(frozen=True)
 class VersionDispatcher:
-    config: Config
+    config: VersionConfig
     driver: IVervsionDriver
 
     @classmethod
-    def factory(cls, config: Config) -> "VersionDispatcher":
-        if config.version_plugin == VersionEnum.GIT_LONG:
-            driver = GitLongVersionDriver()
+    def factory(cls, config: VersionConfig) -> "VersionDispatcher":
+        if config.provider == VersionProviderEnum.GIT:
+            driver = GitVersionDriver(settings=config.git)
         else:
-            driver = GitLongVersionDriver()
+            driver = GitVersionDriver(settings=config.git)
         return cls(
             driver=driver,
             config=config,
@@ -59,12 +59,10 @@ class VersionDispatcher:
         command = event.command
         if not isinstance(command, BuildCommand):
             return
-        if not self.config.version_plugin:
-            return
         io = event.io
         poetry = command.poetry
         try:
-            version = self.driver.get_version(self.config.git_version_prefix)
+            version = self.driver.get_version()
         except Exception as exc:
             io.write_error_line(f"<b>poem-plugins</b>: {exc}")
             raise exc

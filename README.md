@@ -19,14 +19,20 @@ $ poetry self add poem-plugins
 Add tool section in project pyproject.toml
 
 ```toml
-[tool.poem-plugins]
-version_plugin = "git-long"
-# Version tags must be starts with this prefix
-git_version_prefix = "v"
+[tool.poem-plugins.version]
+enabled = true
+provider = "git"
 # Create a file with version inside a project
 write_version_file = true
 # Save new version on pyproject
 update_pyproject = true
+
+
+[tool.poem-plugins.version.git]
+# Version tags must be starts with this prefix
+version_prefix = "v"
+# Version format with commit hash (long) or not (short)
+format = "short"
 ```
 
 Create a git tag, for example:
@@ -39,10 +45,10 @@ Next, build your project. It will show an output like:
 
 ```console
 $ poetry build
-poem-plugins: Setting version to: 0.1.0+g5ee9240
-Building awesome_package (0.1.0+g5ee9240)
+poem-plugins: Setting version to: 0.1.0
+Building awesome_package (0.1.0)
   - Building sdist
-  - Built awesome_package-0.1.0+g5ee9240.tar.gz
+  - Built awesome_package-0.1.0.tar.gz
   - Building wheel
-  - Built awesome_package-0.1.0+g5ee9240-py3-none-any.whl```
+  - Built awesome_package-0.1.0-py3-none-any.whl```
 ```
