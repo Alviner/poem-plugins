@@ -9,6 +9,7 @@ KwargsType = Mapping[str, Any]
 
 MapperType = Callable[[Any], Any]
 
+
 class BaseConfig:
     MAPPERS: ClassVar[Mapping[str, MapperType]]
 
