@@ -1,5 +1,5 @@
-from poem_plugins.plugins.versions import VersionsPlugin
+from poem_plugins.plugins.version import VersionPlugin
 
 __all__ = (
-    "VersionsPlugin",
+    "VersionPlugin",
 )
