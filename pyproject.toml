@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "poem-plugins"
-version = "0.14.0.dev1"
+version = "0.15.0"
 description = "Some set of poetry plugins"
 authors = ["Ivan Sitkin <alvinera@yandex.ru>"]
 repository = "https://github.com/alviner/poem-plugins"
@@ -77,6 +77,7 @@ source = ["poem_plugins"]
 poem-version-plugin = "poem_plugins.plugins:VersionPlugin"
 
 [tool.poem-plugins.version]
+provider = "git"
 # Save new version on pyproject
 update_pyproject = true
 

@@ -1,3 +1,4 @@
+from types import MappingProxyType
 from typing import (
     Any, Callable, ClassVar, Type, TypeVar, Mapping, MutableMapping,
 )
@@ -11,7 +12,7 @@ MapperType = Callable[[Any], Any]
 
 
 class BaseConfig:
-    MAPPERS: ClassVar[Mapping[str, MapperType]]
+    MAPPERS: ClassVar[Mapping[str, MapperType]] = MappingProxyType({})
 
     @classmethod
     def fabric(cls: Type[ConfigType], kwargs: KwargsType) -> ConfigType:
