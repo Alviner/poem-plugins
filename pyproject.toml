@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "poem-plugins"
-version = "0.12.12"
+version = "0.13.0"
 description = "Some set of poetry plugins"
 authors = ["Ivan Sitkin <alvinera@yandex.ru>"]
 repository = "https://github.com/alviner/poem-plugins"
@@ -76,3 +76,15 @@ source = ["poem_plugins"]
 
 [tool.poetry.plugins."poetry.application.plugin"]
 poem-version-plugin = "poem_plugins.plugins:VersionPlugin"
+
+[tool.poem-plugins.version]
+enabled = true
+provider = "git"
+# Save new version on pyproject
+update_pyproject = true
+
+[tool.poem-plugins.version.git]
+# Version tags must be starts with this prefix
+version_prefix = "v"
+# Version format with commit hash (long) or not (short)
+format = "short"
