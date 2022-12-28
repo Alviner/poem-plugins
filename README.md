@@ -33,19 +33,25 @@ provider = "git"
 ```
 Likewise, you can specify a number of optional arguments to control the plugin
 behavior. Here are some of the arguments that you can use:
-- `update_pyproject` (required false, default false): plugin will not only use version from provider for building, but save it in `pyproject.toml`
-- `write_version_file` (required false, default false): plugin will create a file `version.py` inside a module, with version information.
+| Name  | description |  Required | Default |
+|-------|-------------|-----------|---------|
+| `update_pyproject`   | plugin will not only use version from provider for building, but save it in `pyproject.toml` | :negative_squared_cross_mark: | `false` |
+| `write_version_file` | plugin will create a file `version.py` inside a module, with version information             | :negative_squared_cross_mark: | `false` |
 
 
 You can specify provider-specific settings in your configuration.
 To specify provider-specific settings, you can use the `tool.poem-plugins.version.{provider}` section.
 Here are some of the arguments that you can use for `git` provider:
-- `version_prefix` (required false, default "v"): version tags must be starts with this prefix
-- `format` (required false, default "short"): plugin will use commit hash (long) or not (short) to build a project version
+| Name  | description |  Required | Default |
+|-------|-------------|-----------|---------|
+| `version_prefix`    | filter tags only starts with this prefix  | :negative_squared_cross_mark: | `v` |
+| `format`            | plugin will use commit hash (long) or not (short) to build a project version | :negative_squared_cross_mark: | `short` |
+
 
 To build your project, run the `poetry build` command.
 The plugin will build the version via provider and use it to set the version for the project.
 ```console
+$ git tag -a v0.1 -m 'tag description'
 $ poetry build
 poem-plugins: Setting version to: 0.1.0
 Building awesome_package (0.1.0)
