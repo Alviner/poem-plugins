@@ -1,32 +1,19 @@
 from pathlib import Path
+from typing import Callable, Type
+from cleo.events.console_command_event import ConsoleCommandEvent
+from cleo.events.event_dispatcher import EventDispatcher
+from poetry.config.config import Config as PoetryConfig
+from poetry.console.commands.env_command import EnvCommand
+from poetry.utils.env import MockEnv
 
 import pytest
-from cleo.commands.command import Command
 from cleo.io.buffered_io import BufferedIO
-from cleo.io.io import IO
-from poetry.config.config import Config
-from poetry.console.application import Application
 from poetry.core.factory import Factory
 from poetry.packages.locker import Locker
 from poetry.poetry import Poetry
-from poetry.utils.env import MockEnv
 
-
-class PoetryTestApplication(Application):
-    def __init__(self, poetry: Poetry, io: IO) -> None:
-        super().__init__()
-        self._poetry = poetry
-        self._io = io
-
-    def run_command(self, command: Command) -> int:
-        return self._run_command(command, self._io)
-
-
-@pytest.fixture
-def env(simple_project: Path) -> MockEnv:
-    path = simple_project / ".venv"
-    path.mkdir(parents=True)
-    return MockEnv(path=path, is_venv=True)
+from poem_plugins.config import Config, VersionEnum
+from poem_plugins.versions.dispatcher import VersionDispatcher
 
 
 @pytest.fixture
@@ -35,24 +22,15 @@ def poetry_io() -> BufferedIO:
 
 
 @pytest.fixture
-def poetry_application(
-    simple_project: Path, poetry_io: BufferedIO, env: MockEnv, mocker,
-) -> PoetryTestApplication:
-    mocker.patch(
-        "poetry.utils.env.EnvManager.create_venv",
-        return_value=env,
-    )
-    mocker.patch(
-        "poetry.core.masonry.builders.builder.Builder.build",
-        return_value=None,
-    )
-
+def poetry(
+    simple_project: Path
+) -> Poetry:
     base_poetry = Factory().create_poetry(cwd=simple_project)
     locker = Locker(
         base_poetry.file.parent / "poetry.lock", base_poetry.local_config,
     )
-    config = Config.create()
-    poetry = Poetry(
+    config = PoetryConfig.create()
+    return Poetry(
         base_poetry.file.path,
         base_poetry.local_config,
         base_poetry.package,
@@ -60,5 +38,39 @@ def poetry_application(
         config,
         disable_cache=True,
     )
-    app = PoetryTestApplication(poetry=poetry, io=poetry_io)
-    return app
+
+
+
+@pytest.fixture
+def config() -> Config:
+    return Config(
+        version_plugin=VersionEnum.GIT_LONG,
+        update_pyproject=True,
+        write_version_file=True,
+    )
+
+@pytest.fixture
+def version_dispatcher(config: Config) -> VersionDispatcher:
+    return VersionDispatcher.factory(config)
+
+
+@pytest.fixture
+def run_command(
+    poetry: Poetry, poetry_io: BufferedIO,
+    version_dispatcher: VersionDispatcher,
+) -> Callable[[Type[EnvCommand]], None]:
+    env = MockEnv()
+    event_dispatcher = EventDispatcher()
+
+    def _creator(cls: Type[EnvCommand]) -> None:
+        command = cls()
+        command.set_env(env)
+        command.set_poetry(poetry)
+        event = ConsoleCommandEvent(
+            command=command,
+            io=poetry_io,
+        )
+        version_dispatcher(
+            event, "anything", event_dispatcher
+        )
+    return _creator

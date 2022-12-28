@@ -70,4 +70,4 @@ branch = true
 source = ["poem_plugins"]
 
 [tool.poetry.plugins."poetry.application.plugin"]
-poem-git-long-version-plugin = "poem_plugins.versions.git:GitLongVersionPlugin"
+poem-version-plugin = "poem_plugins.versions.VersionPlugin"
