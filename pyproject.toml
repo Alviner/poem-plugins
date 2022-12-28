@@ -1,9 +1,10 @@
 [tool.poetry]
 name = "poem-plugins"
-version = "0.12.10"
+version = "0.12.11"
 description = "Some set of poetry plugins"
 authors = ["Ivan Sitkin <alvinera@yandex.ru>"]
 homepage = "https://github.com/alviner/poem-plugins"
+documentation = "https://github.com/alviner/poem-plugins"
 license = "MIT"
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -17,6 +18,7 @@ classifiers = [
     "Operating System :: POSIX",
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python",
