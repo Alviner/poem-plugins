@@ -12,8 +12,9 @@ from poetry.packages.locker import Locker
 from poetry.poetry import Poetry
 from poetry.utils.env import MockEnv
 
-from poem_plugins.config import Config, VersionEnum
-from poem_plugins.dispatchers.versions import VersionDispatcher
+from poem_plugins.config import VersionConfig, VersionProviderEnum
+from poem_plugins.config.git import GitProviderSettings, GitVersionFormatEnum
+from poem_plugins.dispatchers.version import VersionDispatcher
 
 
 @pytest.fixture
@@ -40,17 +41,19 @@ def poetry(
     )
 
 
-
 @pytest.fixture
-def config() -> Config:
-    return Config(
-        version_plugin=VersionEnum.GIT_LONG,
+def config() -> VersionConfig:
+    return VersionConfig(
+        provider=VersionProviderEnum.GIT,
         update_pyproject=True,
         write_version_file=True,
+        git=GitProviderSettings(
+            format=GitVersionFormatEnum.LONG,
+        ),
     )
 
 @pytest.fixture
-def version_dispatcher(config: Config) -> VersionDispatcher:
+def version_dispatcher(config: VersionConfig) -> VersionDispatcher:
     return VersionDispatcher.factory(config)
 
 

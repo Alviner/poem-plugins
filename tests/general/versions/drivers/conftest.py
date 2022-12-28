@@ -1,8 +1,13 @@
 import pytest
 
-from poem_plugins.general.versions.drivers.git import GitLongVersionDriver
+from poem_plugins.config.git import GitProviderSettings
+from poem_plugins.general.version.drivers.git import GitVersionDriver
 
 
 @pytest.fixture
-def git_long_version_driver() -> GitLongVersionDriver:
-    return GitLongVersionDriver()
+def git_settings() -> GitProviderSettings:
+    return GitProviderSettings()
+
+@pytest.fixture
+def git_version_driver(git_settings) -> GitVersionDriver:
+    return GitVersionDriver(git_settings)

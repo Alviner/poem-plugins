@@ -1,12 +1,28 @@
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
 
+import pytest
 from cleo.io.buffered_io import BufferedIO
 from poetry.console.commands.build import BuildCommand
 from poetry.console.commands.lock import LockCommand
 from poetry.poetry import Poetry
 
-from poem_plugins.general.versions import Version
+from poem_plugins.config import VersionConfig, VersionProviderEnum
+from poem_plugins.config.git import GitProviderSettings, GitVersionFormatEnum
+from poem_plugins.general.version import Version
+
+
+@pytest.fixture
+def config() -> VersionConfig:
+    return VersionConfig(
+        provider=VersionProviderEnum.GIT,
+        update_pyproject=True,
+        write_version_file=True,
+        git=GitProviderSettings(
+            format=GitVersionFormatEnum.SHORT,
+        ),
+    )
+
 
 
 def test_skip_non_build(poetry_io: BufferedIO, run_command) -> None:
@@ -16,7 +32,7 @@ def test_skip_non_build(poetry_io: BufferedIO, run_command) -> None:
 
 def test_output_version(poetry_io: BufferedIO, run_command) -> None:
     run_command(BuildCommand)
-    expected = "poem-plugins: Setting version to: 1.2.0+gg3c3e199\n"
+    expected = "poem-plugins: Setting version to: 1.2.0\n"
     assert poetry_io.fetch_output().startswith(expected)
 
 

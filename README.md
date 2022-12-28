@@ -16,33 +16,41 @@ Install this plugin to your Poetry:
 $ poetry self add poem-plugins
 ```
 
-Add tool section in project pyproject.toml
+### Version Plugin
 
+The poetry plugin for project versioning allows users to specify
+the version of their project via the provider other than the default `pyproject.toml` file.
+This can be useful for users who prefer to set the project version based on a git tag, for example.
+
+Plugin can be configured via a section in the `pyproject.toml` file.
+To use the plugin, you will need to add a section to your `pyproject.toml`
+file that specifies the provider.
+
+Here's an example of how you might configure the plugin in your `pyproject.toml` file:
 ```toml
-[tool.poem-plugins]
-version_plugin = "git-long"
-# Version tags must be starts with this prefix
-git_version_prefix = "v"
-# Create a file with version inside a project
-write_version_file = true
-# Save new version on pyproject
-update_pyproject = true
+[tool.poem-plugins.version]
+provider = "git"
 ```
+Likewise, you can specify a number of optional arguments to control the plugin
+behavior. Here are some of the arguments that you can use:
+- `update_pyproject` (required false, default false): plugin will not only use version from provider for building, but save it in `pyproject.toml`
+- `write_version_file` (required false, default false): plugin will create a file `version.py` inside a module, with version information.
 
-Create a git tag, for example:
 
-```console
-$ git tag v0.1
-```
+You can specify provider-specific settings in your configuration.
+To specify provider-specific settings, you can use the `tool.poem-plugins.version.{provider}` section.
+Here are some of the arguments that you can use for `git` provider:
+- `version_prefix` (required false, default "v"): version tags must be starts with this prefix
+- `format` (required false, default "short"): plugin will use commit hash (long) or not (short) to build a project version
 
-Next, build your project. It will show an output like:
-
+To build your project, run the `poetry build` command.
+The plugin will build the version via provider and use it to set the version for the project.
 ```console
 $ poetry build
-poem-plugins: Setting version to: 0.1.0+g5ee9240
-Building awesome_package (0.1.0+g5ee9240)
+poem-plugins: Setting version to: 0.1.0
+Building awesome_package (0.1.0)
   - Building sdist
-  - Built awesome_package-0.1.0+g5ee9240.tar.gz
+  - Built awesome_package-0.1.0.tar.gz
   - Building wheel
-  - Built awesome_package-0.1.0+g5ee9240-py3-none-any.whl```
+  - Built awesome_package-0.1.0-py3-none-any.whl```
 ```
