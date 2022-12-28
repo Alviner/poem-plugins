@@ -28,11 +28,3 @@ class VersionConfig(BaseConfig):
     write_version_file: bool = False
 
     git: GitProviderSettings = field(default_factory=GitProviderSettings)
-
-
-@dataclass
-class Config(BaseConfig):
-    MAPPERS = MappingProxyType({
-        "version": VersionConfig.fabric,
-    })
-    version: VersionConfig = field(default_factory=VersionConfig)

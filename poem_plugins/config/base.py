@@ -16,7 +16,9 @@ class BaseConfig:
     def fabric(cls: Type[ConfigType], kwargs: KwargsType) -> ConfigType:
         mapped_kwargs: MutableMapping[str, Any] = {}
         for field, raw_value in kwargs.items():
-            mapper = cls.MAPPERS.get(field, lambda x: x)
+            mapper = cls.MAPPERS.get(field)
+            if not mapper:
+                continue
             mapped_value = mapper(raw_value)
             mapped_kwargs[field] = mapped_value
         return cls(**mapped_kwargs)

@@ -20,18 +20,17 @@ Add tool section in project pyproject.toml
 
 ```toml
 [tool.poem-plugins.version]
-enabled = true
 provider = "git"
-# Create a file with version inside a project
+# Create a file with version inside a project, default: false
 write_version_file = true
-# Save new version on pyproject
+# Save new version on pyproject, default: false
 update_pyproject = true
 
 
 [tool.poem-plugins.version.git]
-# Version tags must be starts with this prefix
+# Version tags must be starts with this prefix, default: 'v'
 version_prefix = "v"
-# Version format with commit hash (long) or not (short)
+# Version format with commit hash (long) or not (short), default: 'short'
 format = "short"
 ```
 
