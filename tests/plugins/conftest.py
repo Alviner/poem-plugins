@@ -13,7 +13,7 @@ from poetry.poetry import Poetry
 from poetry.utils.env import MockEnv
 
 from poem_plugins.config import Config, VersionEnum
-from poem_plugins.versions.dispatcher import VersionDispatcher
+from poem_plugins.dispatchers.versions import VersionDispatcher
 
 
 @pytest.fixture

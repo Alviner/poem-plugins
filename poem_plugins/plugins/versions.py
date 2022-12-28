@@ -5,7 +5,7 @@ from poem_plugins.base import BasePlugin
 from poem_plugins.versions.dispatcher import VersionDispatcher
 
 
-class VersionPlugin(BasePlugin):
+class VersionsPlugin(BasePlugin):
     def activate(self, application: Application) -> None:
         if not application.event_dispatcher:
             return
