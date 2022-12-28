@@ -4,11 +4,9 @@ from pathlib import Path
 from cleo.io.buffered_io import BufferedIO
 from poetry.console.commands.build import BuildCommand
 from poetry.console.commands.lock import LockCommand
-
 from poetry.poetry import Poetry
 
 from poem_plugins.general.versions import Version
-
 
 
 def test_skip_non_build(poetry_io: BufferedIO, run_command) -> None:
@@ -42,7 +40,7 @@ def test_file_version(
 
 
 def test_pyproject_version(
-    expected_version: Version, run_command, poetry: Poetry
+    expected_version: Version, run_command, poetry: Poetry,
 ) -> None:
     run_command(BuildCommand)
     content = poetry.file.read()

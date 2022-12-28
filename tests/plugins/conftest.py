@@ -1,16 +1,16 @@
 from pathlib import Path
 from typing import Callable, Type
-from cleo.events.console_command_event import ConsoleCommandEvent
-from cleo.events.event_dispatcher import EventDispatcher
-from poetry.config.config import Config as PoetryConfig
-from poetry.console.commands.env_command import EnvCommand
-from poetry.utils.env import MockEnv
 
 import pytest
+from cleo.events.console_command_event import ConsoleCommandEvent
+from cleo.events.event_dispatcher import EventDispatcher
 from cleo.io.buffered_io import BufferedIO
+from poetry.config.config import Config as PoetryConfig
+from poetry.console.commands.env_command import EnvCommand
 from poetry.core.factory import Factory
 from poetry.packages.locker import Locker
 from poetry.poetry import Poetry
+from poetry.utils.env import MockEnv
 
 from poem_plugins.config import Config, VersionEnum
 from poem_plugins.versions.dispatcher import VersionDispatcher
@@ -23,7 +23,7 @@ def poetry_io() -> BufferedIO:
 
 @pytest.fixture
 def poetry(
-    simple_project: Path
+    simple_project: Path,
 ) -> Poetry:
     base_poetry = Factory().create_poetry(cwd=simple_project)
     locker = Locker(
@@ -71,6 +71,6 @@ def run_command(
             io=poetry_io,
         )
         version_dispatcher(
-            event, "anything", event_dispatcher
+            event, "anything", event_dispatcher,
         )
     return _creator
