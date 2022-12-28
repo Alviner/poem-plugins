@@ -1,11 +1,9 @@
 # Poem Plugins
 
-<a href="https://pypi.org/project/poem-plugins" target="_blank">
-    <img src="https://img.shields.io/pypi/v/poem-plugins?color=%2334D058&label=pypi%20package" alt="Package version">
-</a>
+[![Pypi](https://img.shields.io/pypi/v/poem-plugins?color=%2334D058&label=pypi%20package)](https://pypi.org/project/poem-plugins)
+[![Coverage Status](https://coveralls.io/repos/github/Alviner/poem-plugins/badge.svg?branch=main)](https://coveralls.io/github/Alviner/poem-plugins?branch=main)
 
 A set of plugins for [**Poetry**](https://python-poetry.org/).
-
 
 ## How to use
 Make sure you have Poetry version `1.2.0` or above. Read below for instructions to install it if you haven't.
@@ -25,6 +23,10 @@ Add tool section in project pyproject.toml
 version_plugin = "git-long"
 # Version tags must be starts with this prefix
 git_version_prefix = "v"
+# Create a file with version inside a project
+write_version_file = true
+# Save new version on pyproject
+update_pyproject = true
 ```
 
 Create a git tag, for example:
