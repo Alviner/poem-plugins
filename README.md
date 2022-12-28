@@ -51,6 +51,7 @@ Here are some of the arguments that you can use for `git` provider:
 To build your project, run the `poetry build` command.
 The plugin will build the version via provider and use it to set the version for the project.
 ```console
+$ git tag v0.1
 $ poetry build
 poem-plugins: Setting version to: 0.1.0
 Building awesome_package (0.1.0)
