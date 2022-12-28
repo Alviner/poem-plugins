@@ -1,7 +1,8 @@
+from dataclasses import dataclass
 from enum import unique
+from types import MappingProxyType
 
-from pydantic import BaseModel
-
+from poem_plugins.config.base import BaseConfig
 from poem_plugins.general.strenum import StrEnum
 
 
@@ -11,6 +12,12 @@ class GitVersionFormatEnum(StrEnum):
     SHORT = "short"
 
 
-class GitProviderSettings(BaseModel):
+@dataclass
+class GitProviderSettings(BaseConfig):
+    MAPPERS = MappingProxyType({
+        "format": GitVersionFormatEnum,
+        "version_prefix": str,
+    })
+
     format: GitVersionFormatEnum = GitVersionFormatEnum.SHORT
     version_prefix: str = "v"

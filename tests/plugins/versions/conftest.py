@@ -12,7 +12,7 @@ from poetry.packages.locker import Locker
 from poetry.poetry import Poetry
 from poetry.utils.env import MockEnv
 
-from poem_plugins.config import Config, VersionConfig
+from poem_plugins.config import Config, VersionConfig, VersionProviderEnum
 from poem_plugins.config.git import GitProviderSettings, GitVersionFormatEnum
 from poem_plugins.dispatchers.version import VersionDispatcher
 
@@ -45,7 +45,7 @@ def poetry(
 def config() -> Config:
     return Config(
         version=VersionConfig(
-            enabled=True,
+            provider=VersionProviderEnum.GIT,
             update_pyproject=True,
             write_version_file=True,
             git=GitProviderSettings(

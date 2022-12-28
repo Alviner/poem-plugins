@@ -7,7 +7,7 @@ from poetry.console.commands.build import BuildCommand
 from poetry.console.commands.lock import LockCommand
 from poetry.poetry import Poetry
 
-from poem_plugins.config import Config, VersionConfig
+from poem_plugins.config import Config, VersionConfig, VersionProviderEnum
 from poem_plugins.config.git import GitProviderSettings, GitVersionFormatEnum
 from poem_plugins.general.version import Version
 
@@ -16,7 +16,7 @@ from poem_plugins.general.version import Version
 def config() -> Config:
     return Config(
         version=VersionConfig(
-            enabled=True,
+            provider=VersionProviderEnum.GIT,
             update_pyproject=True,
             write_version_file=True,
             git=GitProviderSettings(

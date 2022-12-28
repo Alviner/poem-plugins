@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "poem-plugins"
-version = "0.13.0"
+version = "0.14.0.dev0"
 description = "Some set of poetry plugins"
 authors = ["Ivan Sitkin <alvinera@yandex.ru>"]
 repository = "https://github.com/alviner/poem-plugins"
@@ -31,7 +31,6 @@ packages = [{include = "poem_plugins"}]
 [tool.poetry.dependencies]
 python = "^3.9"
 poetry = "^1.2"
-pydantic = "^1.10.2"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^0.991"

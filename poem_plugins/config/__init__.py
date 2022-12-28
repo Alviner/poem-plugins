@@ -1,7 +1,9 @@
+from dataclasses import dataclass, field
 from enum import unique
+from types import MappingProxyType
+from typing import Optional
 
-from pydantic import BaseModel, Field
-
+from poem_plugins.config.base import BaseConfig
 from poem_plugins.config.git import GitProviderSettings
 from poem_plugins.general.strenum import StrEnum
 
@@ -11,18 +13,26 @@ class VersionProviderEnum(StrEnum):
     GIT = "git"
 
 
-class BaseConfig(BaseModel):
-    pass
-
-
+@dataclass
 class VersionConfig(BaseConfig):
-    enabled: bool = False
+    MAPPERS = MappingProxyType({
+        "provider": VersionProviderEnum,
+        "update_pyproject": bool,
+        "write_version_file": bool,
+        "git": GitProviderSettings.fabric,
+    })
+
+    provider: Optional[VersionProviderEnum] = None
+
     update_pyproject: bool = False
     write_version_file: bool = False
 
-    provider: VersionProviderEnum = VersionProviderEnum.GIT
-    git: GitProviderSettings = Field(default_factory=GitProviderSettings)
+    git: GitProviderSettings = field(default_factory=GitProviderSettings)
 
 
+@dataclass
 class Config(BaseConfig):
-    version: VersionConfig = Field(default_factory=VersionConfig)
+    MAPPERS = MappingProxyType({
+        "version": VersionConfig.fabric,
+    })
+    version: VersionConfig = field(default_factory=VersionConfig)
