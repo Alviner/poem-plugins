@@ -1,10 +1,12 @@
 [tool.poetry]
 name = "poem-plugins"
-version = "0.12.11"
+version = "0.12.12"
 description = "Some set of poetry plugins"
 authors = ["Ivan Sitkin <alvinera@yandex.ru>"]
-homepage = "https://github.com/alviner/poem-plugins"
+repository = "https://github.com/alviner/poem-plugins"
+homepage = "https://pypi.org/project/poem-plugins"
 documentation = "https://github.com/alviner/poem-plugins"
+keywords = ["plugins", "poetry"]
 license = "MIT"
 classifiers = [
     "Development Status :: 4 - Beta",
