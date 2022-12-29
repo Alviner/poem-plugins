@@ -26,7 +26,7 @@ class GitVersionDriver(IVervsionDriver):
     VERSION_TEMPLATE: str = (
         "# THIS FILE WAS GENERATED AUTOMATICALLY\n"
         "# BY: {whoami}\n"
-        "# NEWER EDIT THIS FILE MANUALLY\n"
+        "# NEVER EDIT THIS FILE MANUALLY\n"
         "\n"
         "version_info = ({major}, {minor}, {patch})\n"
         "__version__ = \"{version}\"\n"
