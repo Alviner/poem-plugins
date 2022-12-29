@@ -24,7 +24,6 @@ def config() -> VersionConfig:
     )
 
 
-
 def test_skip_non_build(poetry_io: BufferedIO, run_command) -> None:
     run_command(LockCommand)
     assert "poem-plugins" not in poetry_io.fetch_output()
