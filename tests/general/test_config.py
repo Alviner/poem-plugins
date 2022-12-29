@@ -5,10 +5,11 @@ import pytest
 
 from poem_plugins.config.base import BaseConfig
 
+
 @dataclass
 class B(BaseConfig):
     MAPPERS = MappingProxyType({
-        "c": bool
+        "c": bool,
     })
     c: bool = True
 
@@ -17,7 +18,7 @@ class B(BaseConfig):
 class A(BaseConfig):
     MAPPERS = MappingProxyType({
         "a": int,
-        "b": B.fabric
+        "b": B.fabric,
     })
 
     a: int
@@ -29,7 +30,7 @@ class A(BaseConfig):
         (dict(a=1), A(a=1, b=B(c=True))),
         (dict(a=1, b=dict(c=False)), A(a=1, b=B(c=False))),
         (dict(a=1, z="unexpected"), A(a=1, b=B(c=True))),
-    )
+    ),
 )
 def test_from_fabric(kwargs, expected):
     assert A.fabric(kwargs) == expected
