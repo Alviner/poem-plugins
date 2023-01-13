@@ -1,5 +1,5 @@
 repos:
   - repo: https://github.com/dizballanze/gray
-    rev: v0.13.0 # Replace by any tag/branch: https://github.com/dizballanze/gray/tags
+    rev: v0.13.0
     hooks:
       - id: gray
