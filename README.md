@@ -67,3 +67,46 @@ Building awesome_package (0.1.0)
   - Building wheel
   - Built awesome_package-0.1.0-py3-none-any.whl```
 ```
+
+## How to develop
+Before getting started with development, you'll need to have poetry installed.
+
+
+Once you have poetry installed, you can create a virtual environment for the project by running:
+```(bash)
+poetry install
+```
+This will also install all the dependencies required for the project.
+
+### Pre-commit hooks
+This project uses pre-commit to automatically run
+simple formatter gray before
+committing changes. To set up the pre-commit hooks, run the following
+command in the project root:
+```(bash)
+poetry run pre-commit install
+```
+
+### Type checking
+This project uses `mypy` for type checking. You can run the type checker
+with the following command:
+```(bash)
+poetry run mypy poem_plugins
+```
+
+### Linting
+This project uses `pylama` for linting. You can run the linter
+with the following command:
+```(bash)
+poetry run pylama poem_plugins
+```
+
+### Tests
+We use `pytest` for running tests. You can run the tests
+with the following command:
+```(bash)
+poetry run pytest
+```
+
+Please make sure that all tests pass and linter and type checker does not
+report any issues before submitting a pull request.
