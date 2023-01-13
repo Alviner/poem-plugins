@@ -80,29 +80,32 @@ This will also install all the dependencies required for the project.
 
 ### Pre-commit hooks
 This project uses pre-commit to automatically run
-simple formatter gray before
-committing changes. To set up the pre-commit hooks, run the following
+simple formatter `gray` before committing changes.
+To set up the pre-commit hooks, run the following
 command in the project root:
 ```(bash)
 poetry run pre-commit install
 ```
 
 ### Type checking
-This project uses `mypy` for type checking. You can run the type checker
+This project uses `mypy` for type checking.
+You can run the type checker
 with the following command:
 ```(bash)
 poetry run mypy poem_plugins
 ```
 
 ### Linting
-This project uses `pylama` for linting. You can run the linter
+This project uses `pylama` for linting.
+You can run the linter
 with the following command:
 ```(bash)
 poetry run pylama poem_plugins
 ```
 
 ### Tests
-We use `pytest` for running tests. You can run the tests
+We use `pytest` for running tests.
+You can run the tests
 with the following command:
 ```(bash)
 poetry run pytest
