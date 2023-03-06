@@ -9,7 +9,7 @@ from poetry.core.utils.helpers import module_name
 from poetry.poetry import Poetry
 from tomlkit.toml_document import TOMLDocument
 
-from poem_plugins.config import QuoteEnum, VersionConfig, VersionProviderEnum
+from poem_plugins.config import QuotesEnum, VersionConfig, VersionProviderEnum
 from poem_plugins.general.version import Version
 from poem_plugins.general.version.drivers import IVervsionDriver
 from poem_plugins.general.version.drivers.git import GitVersionDriver
@@ -47,14 +47,14 @@ class VersionDispatcher:
         self,
         poetry: Poetry,
         version: Version,
-        quote: Optional[QuoteEnum] = None,
+        quotes: Optional[QuotesEnum] = None,
     ) -> None:
         if not self.config.write_version_file:
             return
         package_name = module_name(poetry.package.name)
         with open(f"{package_name}/version.py", "w") as file:
             file.write(
-                self.driver.render_version_file(version=version, quote=quote),
+                self.driver.render_version_file(version=version, quotes=quotes),
             )
 
     def __call__(
@@ -82,4 +82,4 @@ class VersionDispatcher:
         poetry.package.version = str(version)  # type: ignore
 
         self._write_pyproject(poetry, version)
-        self._write_module(poetry, version, self.config.version_file_quote)
+        self._write_module(poetry, version, self.config.version_file_quotes)

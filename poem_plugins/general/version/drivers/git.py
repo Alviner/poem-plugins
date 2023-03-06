@@ -6,7 +6,7 @@ from shutil import which
 from types import MappingProxyType
 from typing import Any, Callable, ClassVar, Mapping, Match, Optional
 
-from poem_plugins.config import QuoteEnum
+from poem_plugins.config import QuotesEnum
 from poem_plugins.config.git import GitProviderSettings, GitVersionFormatEnum
 from poem_plugins.general.version import Version
 from poem_plugins.general.version.drivers import IVervsionDriver
@@ -79,7 +79,7 @@ class GitVersionDriver(IVervsionDriver):
     def render_version_file(
         self,
         version: Version,
-        quote: Optional[QuoteEnum] = None,
+        quotes: Optional[QuotesEnum] = None,
     ) -> str:
         content = self.VERSION_TEMPLATE.format(
             whoami='poem-plugins "git" plugin',
@@ -88,6 +88,6 @@ class GitVersionDriver(IVervsionDriver):
             patch=version.patch,
             version=str(version),
         )
-        if quote is not None:
-            content = content.replace('"', quote)
+        if quotes is not None:
+            content = content.replace('"', quotes)
         return content

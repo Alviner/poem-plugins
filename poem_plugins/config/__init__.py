@@ -14,7 +14,7 @@ class VersionProviderEnum(StrEnum):
 
 
 @unique
-class QuoteEnum(StrEnum):
+class QuotesEnum(StrEnum):
     single = '"'
     double = "'"
 
@@ -27,7 +27,7 @@ class VersionConfig(BaseConfig):
             "update_pyproject": bool,
             "write_version_file": bool,
             "git": GitProviderSettings.fabric,
-            "quote": QuoteEnum,
+            "quote": QuotesEnum,
         },
     )
 
@@ -35,6 +35,6 @@ class VersionConfig(BaseConfig):
 
     update_pyproject: bool = False
     write_version_file: bool = False
-    version_file_quote: Optional[QuoteEnum] = None
+    version_file_quotes: Optional[QuotesEnum] = None
 
     git: GitProviderSettings = field(default_factory=GitProviderSettings)
