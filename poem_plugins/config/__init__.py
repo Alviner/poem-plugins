@@ -15,8 +15,8 @@ class VersionProviderEnum(StrEnum):
 
 @unique
 class QuotesEnum(StrEnum):
-    single = '"'
-    double = "'"
+    double = '"'
+    single = "'"
 
 
 @dataclass

@@ -53,9 +53,10 @@ class VersionDispatcher:
             return
         package_name = module_name(poetry.package.name)
         with open(f"{package_name}/version.py", "w") as file:
-            file.write(
-                self.driver.render_version_file(version=version, quotes=quotes),
-            )
+            content = self.driver.render_version_file(version=version)
+            if quotes is not None:
+                content = content.replace('"', quotes)
+            file.write(content)
 
     def __call__(
         self,
