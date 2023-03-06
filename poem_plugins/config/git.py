@@ -14,10 +14,12 @@ class GitVersionFormatEnum(StrEnum):
 
 @dataclass
 class GitProviderSettings(BaseConfig):
-    MAPPERS = MappingProxyType({
-        "format": GitVersionFormatEnum,
-        "version_prefix": str,
-    })
+    MAPPERS = MappingProxyType(
+        {
+            "format": GitVersionFormatEnum,
+            "version_prefix": str,
+        },
+    )
 
     format: GitVersionFormatEnum = GitVersionFormatEnum.SHORT
     version_prefix: str = "v"

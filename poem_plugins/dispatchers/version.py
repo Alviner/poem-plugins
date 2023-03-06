@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 
 from cleo.events.console_command_event import ConsoleCommandEvent
 from cleo.events.event import Event
@@ -8,7 +9,7 @@ from poetry.core.utils.helpers import module_name
 from poetry.poetry import Poetry
 from tomlkit.toml_document import TOMLDocument
 
-from poem_plugins.config import VersionConfig, VersionProviderEnum
+from poem_plugins.config import QuoteEnum, VersionConfig, VersionProviderEnum
 from poem_plugins.general.version import Version
 from poem_plugins.general.version.drivers import IVervsionDriver
 from poem_plugins.general.version.drivers.git import GitVersionDriver
@@ -31,7 +32,9 @@ class VersionDispatcher:
         )
 
     def _write_pyproject(
-        self, poetry: Poetry, version: Version,
+        self,
+        poetry: Poetry,
+        version: Version,
     ) -> None:
         if not self.config.update_pyproject:
             return
@@ -41,18 +44,24 @@ class VersionDispatcher:
         poetry.file.write(content)
 
     def _write_module(
-        self, poetry: Poetry, version: Version,
+        self,
+        poetry: Poetry,
+        version: Version,
+        quote: Optional[QuoteEnum] = None,
     ) -> None:
         if not self.config.write_version_file:
             return
         package_name = module_name(poetry.package.name)
         with open(f"{package_name}/version.py", "w") as file:
             file.write(
-                self.driver.render_version_file(version=version),
+                self.driver.render_version_file(version=version, quote=quote),
             )
 
     def __call__(
-        self, event: Event, event_name: str, dispatcher: EventDispatcher,
+        self,
+        event: Event,
+        event_name: str,
+        dispatcher: EventDispatcher,
     ) -> None:
         if not isinstance(event, ConsoleCommandEvent):
             return
@@ -73,4 +82,4 @@ class VersionDispatcher:
         poetry.package.version = str(version)  # type: ignore
 
         self._write_pyproject(poetry, version)
-        self._write_module(poetry, version)
+        self._write_module(poetry, version, self.config.version_file_quote)

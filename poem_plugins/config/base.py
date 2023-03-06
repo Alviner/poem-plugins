@@ -1,6 +1,6 @@
 from types import MappingProxyType
 from typing import (
-    Any, Callable, ClassVar, Type, TypeVar, Mapping, MutableMapping,
+    Any, Callable, ClassVar, Mapping, MutableMapping, Type, TypeVar,
 )
 
 

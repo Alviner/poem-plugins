@@ -13,18 +13,28 @@ class VersionProviderEnum(StrEnum):
     GIT = "git"
 
 
+@unique
+class QuoteEnum(StrEnum):
+    single = '"'
+    double = "'"
+
+
 @dataclass
 class VersionConfig(BaseConfig):
-    MAPPERS = MappingProxyType({
-        "provider": VersionProviderEnum,
-        "update_pyproject": bool,
-        "write_version_file": bool,
-        "git": GitProviderSettings.fabric,
-    })
+    MAPPERS = MappingProxyType(
+        {
+            "provider": VersionProviderEnum,
+            "update_pyproject": bool,
+            "write_version_file": bool,
+            "git": GitProviderSettings.fabric,
+            "quote": QuoteEnum,
+        },
+    )
 
     provider: Optional[VersionProviderEnum] = None
 
     update_pyproject: bool = False
     write_version_file: bool = False
+    version_file_quote: Optional[QuoteEnum] = None
 
     git: GitProviderSettings = field(default_factory=GitProviderSettings)
