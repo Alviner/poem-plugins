@@ -9,5 +9,7 @@ class IVervsionDriver(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def render_version_file(self, version: Version) -> str:
+    def render_version_file(
+        self, version: Version,
+    ) -> str:
         raise NotImplementedError

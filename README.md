@@ -6,14 +6,15 @@
 A set of plugins for [**Poetry**](https://python-poetry.org/).
 
 ## How to use
+
 Make sure you have Poetry version `1.2.0` or above. Read below for instructions to install it if you haven't.
 
 ### Install Poem Plugins
 
 Install this plugin to your Poetry:
 
-```console
-$ poetry self add poem-plugins
+```(console)
+poetry self add poem-plugins
 ```
 
 ### Version Plugin
@@ -27,29 +28,31 @@ To use the plugin, you will need to add a section to your `pyproject.toml`
 file that specifies the provider.
 
 Here's an example of how you might configure the plugin in your `pyproject.toml` file:
-```toml
+
+```(toml)
 [tool.poem-plugins.version]
 provider = "git"
 ```
+
 Likewise, you can specify a number of optional arguments to control the plugin
 behavior. Here are some of the arguments that you can use:
-| Name  | description |  Default |
+| Name | description | Default |
 |-------|-------------|---------|
-| `update_pyproject`   | plugin will not only use version from provider for building, but save it in `pyproject.toml` | `false` |
-| `write_version_file` | plugin will create a file `version.py` inside a module, with version information             | `false` |
-
+| `update_pyproject` | plugin will not only use version from provider for building, but save it in `pyproject.toml` | `false` |
+| `write_version_file` | plugin will create a file `version.py` inside a module, with version information | `false` |
+| `version_file_quotes` | plugin will replace default quotes in `version.py` file with provided by: `'` or `"` | `unset` |
 
 You can specify provider-specific settings in your configuration.
 To specify provider-specific settings, you can use the `tool.poem-plugins.version.{provider}` section.
 Here are some of the arguments that you can use for `git` provider:
-| Name  | description | Default |
+| Name | description | Default |
 |-------|-------------|---------|
-| `version_prefix`    | filter tags only starts with this prefix  | `v` |
-| `format`            | plugin will use commit hash (long) or not (short) to build a project version | `short` |
+| `version_prefix` | filter tags only starts with this prefix | `v` |
+| `format` | plugin will use commit hash (long) or not (short) to build a project version | `short` |
 
 Example:
 
-```toml
+```(toml)
 [tool.poem-plugins.version.git]
 version_prefix = "v"
 format = "short"
@@ -57,7 +60,8 @@ format = "short"
 
 To build your project, run the `poetry build` command.
 The plugin will build the version via provider and use it to set the version for the project.
-```console
+
+```(console)
 $ git tag -a v0.1 -m 'tag description'
 $ poetry build
 poem-plugins: Setting version to: 0.1.0
@@ -65,48 +69,58 @@ Building awesome_package (0.1.0)
   - Building sdist
   - Built awesome_package-0.1.0.tar.gz
   - Building wheel
-  - Built awesome_package-0.1.0-py3-none-any.whl```
+  - Built awesome_package-0.1.0-py3-none-any.whl
 ```
 
 ## How to develop
+
 Before getting started with development, you'll need to have poetry installed.
 
-
 Once you have poetry installed, you can create a virtual environment for the project by running:
+
 ```(bash)
 poetry install
 ```
+
 This will also install all the dependencies required for the project.
 
 ### Pre-commit hooks
+
 This project uses pre-commit to automatically run
 simple formatter `gray` before committing changes.
 To set up the pre-commit hooks, run the following
 command in the project root:
+
 ```(bash)
 poetry run pre-commit install
 ```
 
 ### Type checking
+
 This project uses `mypy` for type checking.
 You can run the type checker
 with the following command:
+
 ```(bash)
 poetry run mypy poem_plugins
 ```
 
 ### Linting
+
 This project uses `pylama` for linting.
 You can run the linter
 with the following command:
+
 ```(bash)
 poetry run pylama poem_plugins
 ```
 
 ### Tests
+
 We use `pytest` for running tests.
 You can run the tests
 with the following command:
+
 ```(bash)
 poetry run pytest
 ```

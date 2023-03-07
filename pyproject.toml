@@ -67,6 +67,13 @@ linters = "pycodestyle,pyflakes,mccabe"
 [tool.pylama.linter.pycodestyle]
 max_line_length = 80
 
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 79
+target-version = ["py39", "py310", "py311"]
+
 [tool.coverage.report]
 skip_empty = true
 

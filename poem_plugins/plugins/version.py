@@ -1,9 +1,10 @@
 from typing import Any, Mapping
+
 from cleo.events.console_events import COMMAND
 from poetry.console.application import Application
 from poetry.poetry import Poetry
-from poem_plugins.config import VersionConfig
 
+from poem_plugins.config import VersionConfig
 from poem_plugins.dispatchers.version import VersionDispatcher
 from poem_plugins.plugins.base import BasePlugin
 
@@ -37,5 +38,6 @@ class VersionPlugin(BasePlugin):
             config=config,
         )
         application.event_dispatcher.add_listener(
-            COMMAND, version_dispatcher,
+            COMMAND,
+            version_dispatcher,
         )

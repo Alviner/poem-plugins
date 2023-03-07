@@ -1,6 +1,6 @@
 from types import MappingProxyType
 from typing import (
-    Any, Callable, ClassVar, Type, TypeVar, Mapping, MutableMapping,
+    Any, Callable, ClassVar, Mapping, MutableMapping, Type, TypeVar,
 )
 
 
@@ -9,6 +9,10 @@ ConfigType = TypeVar("ConfigType", bound="BaseConfig")
 KwargsType = Mapping[str, Any]
 
 MapperType = Callable[[Any], Any]
+
+
+def is_unset(value: Any) -> bool:
+    return value in (None, "")
 
 
 class BaseConfig:
@@ -21,6 +25,9 @@ class BaseConfig:
             mapper = cls.MAPPERS.get(field)
             if not mapper:
                 continue
-            mapped_value = mapper(raw_value)
+            if is_unset(raw_value):
+                mapped_value = None
+            else:
+                mapped_value = mapper(raw_value)
             mapped_kwargs[field] = mapped_value
         return cls(**mapped_kwargs)

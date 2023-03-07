@@ -29,15 +29,17 @@ class GitVersionDriver(IVervsionDriver):
         "# NEVER EDIT THIS FILE MANUALLY\n"
         "\n"
         "version_info = ({major}, {minor}, {patch})\n"
-        "__version__ = \"{version}\"\n"
+        '__version__ = "{version}"\n'
     )
 
-    CONVERTERS: ClassVar[Mapping[str, Callable[[Any], Any]]] = (
-        MappingProxyType({
+    CONVERTERS: ClassVar[
+        Mapping[str, Callable[[Any], Any]]
+    ] = MappingProxyType(
+        {
             "major": int,
             "minor": int,
             "patch": int,
-        })
+        },
     )
 
     def get_version(self) -> Version:
@@ -73,13 +75,14 @@ class GitVersionDriver(IVervsionDriver):
 
         return Version(**kwargs)
 
-    def render_version_file(self, version: Version) -> str:
-        return (
-            self.VERSION_TEMPLATE.format(
-                whoami="poem-plugins \"git\" plugin",
-                major=version.major,
-                minor=version.minor,
-                patch=version.patch,
-                version=str(version),
-            )
+    def render_version_file(
+        self,
+        version: Version,
+    ) -> str:
+        return self.VERSION_TEMPLATE.format(
+            whoami='poem-plugins "git" plugin',
+            major=version.major,
+            minor=version.minor,
+            patch=version.patch,
+            version=str(version),
         )
