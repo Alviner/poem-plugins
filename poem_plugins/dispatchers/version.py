@@ -1,62 +1,30 @@
 from dataclasses import dataclass
-from typing import Optional
+from typing import Any, Mapping
 
 from cleo.events.console_command_event import ConsoleCommandEvent
 from cleo.events.event import Event
 from cleo.events.event_dispatcher import EventDispatcher
 from poetry.console.commands.build import BuildCommand
-from poetry.core.utils.helpers import module_name
 from poetry.poetry import Poetry
-from tomlkit.toml_document import TOMLDocument
 
-from poem_plugins.config import QuotesEnum, VersionConfig, VersionProviderEnum
-from poem_plugins.general.version import Version
-from poem_plugins.general.version.drivers import IVervsionDriver
-from poem_plugins.general.version.drivers.git import GitVersionDriver
+from poem_plugins.config import VersionConfig
+from poem_plugins.dispatchers.base import BaseDispatcher
+from poem_plugins.handlers.version import VersionHandler
 
 
 @dataclass(frozen=True)
-class VersionDispatcher:
-    config: VersionConfig
-    driver: IVervsionDriver
-
+class VersionDispatcher(BaseDispatcher):
     @classmethod
-    def factory(cls, config: VersionConfig) -> "VersionDispatcher":
-        if config.provider == VersionProviderEnum.GIT:
-            driver = GitVersionDriver(settings=config.git)
-        else:
-            driver = GitVersionDriver(settings=config.git)
-        return cls(
-            driver=driver,
-            config=config,
-        )
+    def factory(cls) -> "VersionDispatcher":
+        return cls()
 
-    def _write_pyproject(
-        self,
-        poetry: Poetry,
-        version: Version,
-    ) -> None:
-        if not self.config.update_pyproject:
-            return
-        content: TOMLDocument = poetry.file.read()
-        poetry_content = content["tool"]["poetry"]  # type: ignore
-        poetry_content["version"] = str(version)  # type: ignore
-        poetry.file.write(content)
+    def get_raw_config(self, poetry: Poetry) -> Mapping[str, Any]:
+        base_raw_config = super().get_raw_config(poetry)
+        return base_raw_config.get("version", {})
 
-    def _write_module(
-        self,
-        poetry: Poetry,
-        version: Version,
-        quotes: Optional[QuotesEnum] = None,
-    ) -> None:
-        if not self.config.write_version_file:
-            return
-        package_name = module_name(poetry.package.name)
-        with open(f"{package_name}/version.py", "w") as file:
-            content = self.driver.render_version_file(version=version)
-            if quotes is not None:
-                content = content.replace('"', quotes)
-            file.write(content)
+    def get_config(self, poetry: Poetry) -> VersionConfig:
+        base = self.get_raw_config(poetry)
+        return VersionConfig.fabric(base)
 
     def __call__(
         self,
@@ -72,15 +40,16 @@ class VersionDispatcher:
         io = event.io
         poetry = command.poetry
         try:
-            version = self.driver.get_version()
+            config = self.get_config(poetry)
         except Exception as exc:
-            io.write_error_line(f"<b>poem-plugins</b>: {exc}")
-            raise exc
+            io.write_error_line(
+                "<b>poem-plugins</b>: "
+                f"Cannot load version config, skipping: {exc}",
+            )
+            return
 
-        io.write_line(
-            f"<b>poem-plugins</b>: Setting version to: {version}",
-        )
-        poetry.package.version = str(version)  # type: ignore
+        if not config.provider:
+            return
 
-        self._write_pyproject(poetry, version)
-        self._write_module(poetry, version, self.config.version_file_quotes)
+        handler = VersionHandler.factory(config)
+        handler.handle(poetry, io)
