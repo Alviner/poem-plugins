@@ -8,7 +8,7 @@ from typing import Any, Callable, ClassVar, Mapping, Match, Optional
 
 from poem_plugins.config.git import GitProviderSettings, GitVersionFormatEnum
 from poem_plugins.general.version import Version
-from poem_plugins.general.version.drivers import IVervsionDriver
+from poem_plugins.general.version.drivers import IVersionDriver
 
 
 GIT_BIN = which("git")
@@ -20,7 +20,7 @@ if GIT_BIN is None:
 
 
 @dataclass
-class GitVersionDriver(IVervsionDriver):
+class GitVersionDriver(IVersionDriver):
     settings: GitProviderSettings
 
     VERSION_TEMPLATE: str = (

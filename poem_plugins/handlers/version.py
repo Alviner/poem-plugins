@@ -8,7 +8,7 @@ from tomlkit import TOMLDocument
 
 from poem_plugins.config import QuotesEnum, VersionConfig, VersionProviderEnum
 from poem_plugins.general.version import Version
-from poem_plugins.general.version.drivers import IVervsionDriver
+from poem_plugins.general.version.drivers import IVersionDriver
 from poem_plugins.general.version.drivers.git import GitVersionDriver
 from poem_plugins.handlers.base import BaseHandler
 
@@ -16,7 +16,7 @@ from poem_plugins.handlers.base import BaseHandler
 @dataclass(frozen=True)
 class VersionHandler(BaseHandler):
     config: VersionConfig
-    driver: IVervsionDriver
+    driver: IVersionDriver
 
     @classmethod
     def factory(cls, config: VersionConfig) -> "VersionHandler":
@@ -46,7 +46,9 @@ class VersionHandler(BaseHandler):
 
         if self.config.write_version_file:
             self._write_module(
-                poetry, version, self.config.version_file_quotes,
+                poetry,
+                version,
+                self.config.version_file_quotes,
             )
 
     def _write_pyproject(
