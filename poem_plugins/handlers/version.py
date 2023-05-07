@@ -10,11 +10,11 @@ from poem_plugins.config import QuotesEnum, VersionConfig, VersionProviderEnum
 from poem_plugins.general.version import Version
 from poem_plugins.general.version.drivers import IVersionDriver
 from poem_plugins.general.version.drivers.git import GitVersionDriver
-from poem_plugins.handlers.base import BaseHandler
+from poem_plugins.handlers import IHandler
 
 
 @dataclass(frozen=True)
-class VersionHandler(BaseHandler):
+class VersionHandler(IHandler):
     config: VersionConfig
     driver: IVersionDriver
 
