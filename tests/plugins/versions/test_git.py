@@ -1,5 +1,6 @@
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
+from typing import Any, Mapping
 
 import pytest
 from cleo.io.buffered_io import BufferedIO
@@ -7,18 +8,18 @@ from poetry.console.commands.build import BuildCommand
 from poetry.console.commands.lock import LockCommand
 from poetry.poetry import Poetry
 
-from poem_plugins.config import VersionConfig, VersionProviderEnum
-from poem_plugins.config.git import GitProviderSettings, GitVersionFormatEnum
+from poem_plugins.config import VersionProviderEnum
+from poem_plugins.config.git import GitVersionFormatEnum
 from poem_plugins.general.version import Version
 
 
 @pytest.fixture
-def config() -> VersionConfig:
-    return VersionConfig(
+def version_config() -> Mapping[str, Any]:
+    return dict(
         provider=VersionProviderEnum.GIT,
         update_pyproject=True,
         write_version_file=True,
-        git=GitProviderSettings(
+        git=dict(
             format=GitVersionFormatEnum.SHORT,
         ),
     )
@@ -36,12 +37,15 @@ def test_output_version(poetry_io: BufferedIO, run_command) -> None:
 
 
 def test_file_version(
-    simple_project: Path, expected_version: Version, run_command,
+    simple_project: Path,
+    expected_version: Version,
+    run_command,
 ) -> None:
     run_command(BuildCommand)
     version_path = simple_project / "simple_project" / "version.py"
     spec = spec_from_file_location(
-        "simple_project.version", version_path,
+        "simple_project.version",
+        version_path,
     )
     assert spec
     version_module = module_from_spec(spec)
@@ -55,7 +59,9 @@ def test_file_version(
 
 
 def test_pyproject_version(
-    expected_version: Version, run_command, poetry: Poetry,
+    expected_version: Version,
+    run_command,
+    poetry: Poetry,
 ) -> None:
     run_command(BuildCommand)
     content = poetry.file.read()

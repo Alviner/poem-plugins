@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Callable, Type
+from typing import Any, Callable, Mapping, Type
 
 import pytest
 from cleo.events.console_command_event import ConsoleCommandEvent
@@ -12,8 +12,8 @@ from poetry.packages.locker import Locker
 from poetry.poetry import Poetry
 from poetry.utils.env import MockEnv
 
-from poem_plugins.config import VersionConfig, VersionProviderEnum
-from poem_plugins.config.git import GitProviderSettings, GitVersionFormatEnum
+from poem_plugins.config import VersionProviderEnum
+from poem_plugins.config.git import GitVersionFormatEnum
 from poem_plugins.dispatchers.version import VersionDispatcher
 
 
@@ -23,15 +23,29 @@ def poetry_io() -> BufferedIO:
 
 
 @pytest.fixture
+def version_config() -> Mapping[str, Any]:
+    return dict(
+        provider=VersionProviderEnum.GIT,
+        update_pyproject=True,
+        write_version_file=True,
+        git=dict(
+            format=GitVersionFormatEnum.LONG,
+        ),
+    )
+
+
+@pytest.fixture
 def poetry(
     simple_project: Path,
+    version_config: Mapping[str, Any],
 ) -> Poetry:
     base_poetry = Factory().create_poetry(cwd=simple_project)
     locker = Locker(
-        base_poetry.file.parent / "poetry.lock", base_poetry.local_config,
+        base_poetry.file.parent / "poetry.lock",
+        base_poetry.local_config,
     )
     config = PoetryConfig.create()
-    return Poetry(
+    poetry = Poetry(
         base_poetry.file.path,
         base_poetry.local_config,
         base_poetry.package,
@@ -39,27 +53,19 @@ def poetry(
         config,
         disable_cache=True,
     )
+    poetry.pyproject.data["tool"]["poem-plugins"]["version"] = version_config
+    return poetry
 
 
 @pytest.fixture
-def config() -> VersionConfig:
-    return VersionConfig(
-        provider=VersionProviderEnum.GIT,
-        update_pyproject=True,
-        write_version_file=True,
-        git=GitProviderSettings(
-            format=GitVersionFormatEnum.LONG,
-        ),
-    )
-
-@pytest.fixture
-def version_dispatcher(config: VersionConfig) -> VersionDispatcher:
-    return VersionDispatcher.factory(config)
+def version_dispatcher() -> VersionDispatcher:
+    return VersionDispatcher.factory()
 
 
 @pytest.fixture
 def run_command(
-    poetry: Poetry, poetry_io: BufferedIO,
+    poetry: Poetry,
+    poetry_io: BufferedIO,
     version_dispatcher: VersionDispatcher,
 ) -> Callable[[Type[EnvCommand]], None]:
     env = MockEnv()
@@ -74,6 +80,9 @@ def run_command(
             io=poetry_io,
         )
         version_dispatcher(
-            event, "anything", event_dispatcher,
+            event,
+            "anything",
+            event_dispatcher,
         )
+
     return _creator

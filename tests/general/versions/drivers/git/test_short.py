@@ -2,7 +2,7 @@ import pytest
 
 from poem_plugins.config.git import GitProviderSettings, GitVersionFormatEnum
 from poem_plugins.general.version import Version
-from poem_plugins.general.version.drivers import IVervsionDriver
+from poem_plugins.general.version.drivers import IVersionDriver
 
 
 @pytest.fixture
@@ -11,13 +11,15 @@ def git_settings() -> GitProviderSettings:
 
 
 def test_get_version(
-    git_version_driver: IVervsionDriver, expected_version: Version,
+    git_version_driver: IVersionDriver,
+    expected_version: Version,
 ) -> None:
     assert git_version_driver.get_version() == expected_version
 
 
 def test_render_version(
-    git_version_driver: IVervsionDriver, expected_version: Version,
+    git_version_driver: IVersionDriver,
+    expected_version: Version,
 ) -> None:
     content = git_version_driver.render_version_file(expected_version)
     expected = "\n".join(
