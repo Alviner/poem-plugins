@@ -30,6 +30,8 @@ class VersionHandler(IHandler):
         )
 
     def handle(self, poetry: Poetry, io: IO) -> None:
+        if not self.config.provider:
+            return
         try:
             version = self.driver.get_version()
         except Exception as exc:
