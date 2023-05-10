@@ -48,8 +48,5 @@ class VersionDispatcher(BaseDispatcher):
             )
             return
 
-        if not config.provider:
-            return
-
         handler = VersionHandler.factory(config)
         handler.handle(poetry, io)
