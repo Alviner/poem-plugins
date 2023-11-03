@@ -37,8 +37,8 @@ class GitVersionDriver(IVersionDriver):
             raw_version = raw_version.removeprefix(self.settings.version_prefix)
         else:
             raise RuntimeError(
-                f"Version tag must start with '{self.settings.version_prefix}' as "
-                "defined in the plugin's config (or by default).",
+                f"Version tag must start with '{self.settings.version_prefix}' "
+                f"as defined in the plugin's config (or by default).",
             )
         regex = (
             r"^((?P<epoch>\d+)!)?(?P<release>\d+(\.\d+)*)"
@@ -48,7 +48,8 @@ class GitVersionDriver(IVersionDriver):
         match = re.match(regex, raw_version)
         if not match:
             raise RuntimeError(
-                f"Failed to parse git version: '{raw_version}' must conform to PEP 440",
+                f"Failed to parse git version: '{raw_version}' must conform to "
+                f"PEP 440",
             )
         groups = match.groupdict()
         epoch = groups["epoch"]
