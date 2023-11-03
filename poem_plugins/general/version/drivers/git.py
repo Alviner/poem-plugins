@@ -10,6 +10,7 @@ from poem_plugins.config.git import (
 from poem_plugins.general.version import Version
 from poem_plugins.general.version.drivers import IVersionDriver
 
+
 GIT_BIN = which("git")
 WARNING_TEXT = (
     '"git" binary was not found, this plugin this will not work properly'
@@ -37,12 +38,12 @@ class GitVersionDriver(IVersionDriver):
         else:
             raise RuntimeError(
                 f"Version tag must start with '{self.settings.version_prefix}' as "
-                f"defined in the plugin's config (or by default)."
+                "defined in the plugin's config (or by default).",
             )
         regex = (
-            r'^((?P<epoch>\d+)!)?(?P<release>\d+(\.\d+)*)'
-            r'(?P<pre>(a|b|rc)\d+)?(\.post(?P<post>\d+))?(\.dev(?P<dev>\d+))?'
-            r'-(?P<commit_count>\d+)-(?P<commit>\S+)$'
+            r"^((?P<epoch>\d+)!)?(?P<release>\d+(\.\d+)*)"
+            r"(?P<pre>(a|b|rc)\d+)?(\.post(?P<post>\d+))?(\.dev(?P<dev>\d+))?"
+            r"-(?P<commit_count>\d+)-(?P<commit>\S+)$"
         )
         match = re.match(regex, raw_version)
         if not match:
