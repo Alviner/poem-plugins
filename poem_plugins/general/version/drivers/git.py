@@ -74,14 +74,14 @@ class GitVersionDriver(IVersionDriver):
                 release[-1] += commit_count
             else:
                 segments[bump_segment.value] = segments[bump_segment.value] or 0
-                segments[bump_segment.value] += commit_count
+                segments[bump_segment.value] += commit_count  # type: ignore
 
         segments["release"] = tuple(release)
 
         if self.settings.format == GitVersionFormatEnum.SHORT:
             segments["commit"] = None
 
-        return Version(**segments)
+        return Version(**segments)  # type: ignore
 
     def _git_describe(self) -> str:
         if GIT_BIN is None:
