@@ -41,12 +41,12 @@ def poetry(
 ) -> Poetry:
     base_poetry = Factory().create_poetry(cwd=simple_project)
     locker = Locker(
-        base_poetry.file.parent / "poetry.lock",
+        base_poetry.pyproject_path.parent / "poetry.lock",
         base_poetry.local_config,
     )
     config = PoetryConfig.create()
     poetry = Poetry(
-        base_poetry.file.path,
+        base_poetry.pyproject_path,
         base_poetry.local_config,
         base_poetry.package,
         locker,
