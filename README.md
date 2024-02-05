@@ -127,3 +127,6 @@ poetry run pytest
 
 Please make sure that all tests pass and linter and type checker does not
 report any issues before submitting a pull request.
+
+## Repo Activity
+![Alt](https://repobeats.axiom.co/api/embed/57f4a173f622ac131cd32a02516289b4aba64a1e.svg "Repobeats analytics image")
