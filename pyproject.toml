@@ -6,12 +6,14 @@ authors = ["Ivan Sitkin <alvinera@yandex.ru>"]
 repository = "https://github.com/alviner/poem-plugins"
 homepage = "https://pypi.org/project/poem-plugins"
 documentation = "https://github.com/alviner/poem-plugins"
-keywords = ["plugins", "poetry"]
+keywords = ["plugins", "poetry", "packaging", ]
 license = "MIT"
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
     "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Information Technology",
     "Intended Audience :: System Administrators",
     "License :: OSI Approved :: MIT License",
     "Operating System :: MacOS :: MacOS X",
@@ -20,10 +22,13 @@ classifiers = [
     "Operating System :: POSIX",
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 readme = "README.md"
 packages = [{include = "poem_plugins"}]
