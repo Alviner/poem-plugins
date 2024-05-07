@@ -732,13 +732,13 @@ pretty = ["rich (>=12.6.0)"]
 
 [[package]]
 name = "gray"
-version = "0.14.0"
+version = "0.15.0"
 description = "Less uncompromising Python code formatter"
 optional = false
 python-versions = "*"
 files = [
-    {file = "gray-0.14.0-py2.py3-none-any.whl", hash = "sha256:00b20c32251abc020bee90f855a92ff44b6131a1c164721739ff2e0abc0ab319"},
-    {file = "gray-0.14.0.tar.gz", hash = "sha256:003b27d91af0c7bb80eedb171ae78e55aba265985212a28df097c92f563fb248"},
+    {file = "gray-0.15.0-py2.py3-none-any.whl", hash = "sha256:cfd22d008bcf372e490870bf518dd3d343198d35f4c9bab22cae301b284e4a0a"},
+    {file = "gray-0.15.0.tar.gz", hash = "sha256:3e2223f4497e8cea759514da9299863c039f03ba61a8d5a2c5982194567a9e5d"},
 ]
 
 [package.dependencies]
@@ -1989,4 +1989,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "f58d5bb959a6dce11714bf0dc12c86115f7eddf495ec31457bd05eeb01e8f2c4"
+content-hash = "4ce166111c571b6bf48929b653c3811f61e02df5bdfa016815d1f7ac0815fd0e"
