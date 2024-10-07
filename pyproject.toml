@@ -46,7 +46,7 @@ pytest-cov = ">=4,<6"
 coveralls = "^3.3.1"
 pytest-mock = "^3.10.0"
 gray = ">=0.13,<0.16"
-pre-commit = ">=2.21,<4.0"
+pre-commit = ">=2.21,<5.0"
 
 [build-system]
 requires = ["poetry-core"]
