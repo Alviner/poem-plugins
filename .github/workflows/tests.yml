@@ -10,7 +10,7 @@ jobs:
   pylama:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup python3.10
         uses: actions/setup-python@v5
         with:
@@ -23,7 +23,7 @@ jobs:
   mypy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup python3.10
         uses: actions/setup-python@v5
         with:
@@ -46,7 +46,7 @@ jobs:
           - "3.11"
           - "3.12"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup python${{ matrix.python }}
         uses: actions/setup-python@v5
         with:
