@@ -8,7 +8,7 @@ from poetry.console.commands.build import BuildCommand
 from poetry.console.commands.lock import LockCommand
 from poetry.poetry import Poetry
 
-from poem_plugins.config import VersionProviderEnum
+from poem_plugins.config import VersionPlaceEnum, VersionProviderEnum
 from poem_plugins.config.git import GitVersionFormatEnum
 from poem_plugins.general.version import Version
 
@@ -18,6 +18,7 @@ def version_config() -> Mapping[str, Any]:
     return dict(
         provider=VersionProviderEnum.GIT,
         update_pyproject=True,
+        update_pyproject_place=VersionPlaceEnum.TOOL_POETRY,
         write_version_file=True,
         git=dict(
             format=GitVersionFormatEnum.SHORT,
@@ -67,3 +68,27 @@ def test_pyproject_version(
     content = poetry.file.read()
     poetry_content = content["tool"]["poetry"]
     assert poetry_content["version"] == str(expected_version)
+
+
+class TestPyprojectProject:
+    @pytest.fixture
+    def version_config(self) -> Mapping[str, Any]:
+        return dict(
+            provider=VersionProviderEnum.GIT,
+            update_pyproject=True,
+            update_pyproject_place=VersionPlaceEnum.PROJECT,
+            write_version_file=True,
+            git=dict(
+                format=GitVersionFormatEnum.SHORT,
+            ),
+        )
+
+    def test_pyproject_version_project(
+        self,
+        expected_version: Version,
+        run_command,
+        poetry: Poetry,
+    ) -> None:
+        run_command(BuildCommand)
+        content = poetry.file.read()
+        assert content["project"]["version"] == str(expected_version)
