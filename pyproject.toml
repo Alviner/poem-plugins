@@ -48,6 +48,8 @@ coveralls = "^3.3.1"
 pytest-mock = "^3.10.0"
 gray = ">=0.13,<0.16"
 pre-commit = ">=2.21,<5.0"
+msgpack = ">=1.1.0"
+cffi = ">=1.17.1"
 
 [build-system]
 requires = ["poetry-core"]
