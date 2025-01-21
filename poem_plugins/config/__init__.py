@@ -19,12 +19,19 @@ class QuotesEnum(StrEnum):
     single = "'"
 
 
+@unique
+class VersionPlaceEnum(StrEnum):
+    TOOL_POETRY = "tool.poetry"
+    PROJECT = "project"
+
+
 @dataclass
 class VersionConfig(BaseConfig):
     MAPPERS = MappingProxyType(
         {
             "provider": VersionProviderEnum,
             "update_pyproject": bool,
+            "update_pyproject_place": VersionPlaceEnum,
             "write_version_file": bool,
             "git": GitProviderSettings.fabric,
             "quote": QuotesEnum,
@@ -34,6 +41,7 @@ class VersionConfig(BaseConfig):
     provider: Optional[VersionProviderEnum] = None
 
     update_pyproject: bool = False
+    update_pyproject_place: VersionPlaceEnum = VersionPlaceEnum.TOOL_POETRY
     write_version_file: bool = False
     version_file_quotes: Optional[QuotesEnum] = None
 

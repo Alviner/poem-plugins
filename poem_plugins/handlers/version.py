@@ -1,16 +1,22 @@
 from dataclasses import dataclass
-from typing import Optional
+from typing import Container, Optional
 
 from cleo.io.io import IO
 from poetry.core.utils.helpers import module_name
 from poetry.poetry import Poetry
-from tomlkit import TOMLDocument
+from tomlkit import TOMLDocument, item
 
-from poem_plugins.config import QuotesEnum, VersionConfig, VersionProviderEnum
+from poem_plugins.config import (
+    QuotesEnum,
+    VersionConfig,
+    VersionPlaceEnum,
+    VersionProviderEnum,
+)
 from poem_plugins.general.version import Version
 from poem_plugins.general.version.drivers import IVersionDriver
 from poem_plugins.general.version.drivers.git import GitVersionDriver
 from poem_plugins.handlers import IHandler
+from poetry.core.constraints.version import Version as pcVersion
 
 
 @dataclass(frozen=True)
@@ -41,7 +47,7 @@ class VersionHandler(IHandler):
         io.write_line(
             f"<b>poem-plugins</b>: Setting version to: {version}",
         )
-        poetry.package.version = str(version)  # type: ignore
+        poetry.package.version = pcVersion.parse(str(version))
 
         if self.config.update_pyproject:
             self._write_pyproject(poetry, version)
@@ -59,8 +65,23 @@ class VersionHandler(IHandler):
         version: Version,
     ) -> None:
         content: TOMLDocument = poetry.file.read()
-        poetry_content = content["tool"]["poetry"]  # type: ignore
-        poetry_content["version"] = str(version)  # type: ignore
+
+        if self.config.update_pyproject_place == VersionPlaceEnum.PROJECT:
+            if "project" not in content:
+                content["project"] = {}
+            if isinstance(content["project"], Container):
+                content["project"]["version"] = item(str(version))
+
+        elif self.config.update_pyproject_place == VersionPlaceEnum.TOOL_POETRY:
+            if "tool" not in content:
+                content["tool"] = {}
+            if "poetry" not in content["tool"]:  # type: ignore
+                content["tool"]["poetry"] = {}  # type: ignore
+            content["tool"]["poetry"]["version"] = str(version)  # type: ignore
+        else:
+            upp = self.config.update_pyproject_place
+            raise ValueError(f"Unknown place: {upp}")
+
         poetry.file.write(content)
 
     def _write_module(

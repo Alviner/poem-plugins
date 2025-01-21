@@ -39,8 +39,10 @@ behavior. Here are some of the arguments that you can use:
 | Name | description | Default |
 |-------|-------------|---------|
 | `update_pyproject` | plugin will not only use version from provider for building, but save it in `pyproject.toml` | `false` |
+| `update_pyproject_place` | place to update version in `pyproject.toml`. Use `project` with [PEP 621](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#version) compatability | `tool.poetry` |
 | `write_version_file` | plugin will create a file `version.py` inside a module, with version information | `false` |
 | `version_file_quotes` | plugin will replace default quotes in `version.py` file with provided by: `'` or `"` | `unset` |
+
 
 You can specify provider-specific settings in your configuration.
 To specify provider-specific settings, you can use the `tool.poem-plugins.version.{provider}` section.
