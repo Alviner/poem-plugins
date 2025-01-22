@@ -16,7 +16,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install poetry
-        uses: abatilo/actions-poetry@v3
+        uses: abatilo/actions-poetry@v4
         with:
           poetry-version: latest
       - run: poetry install
@@ -37,7 +37,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install poetry
-        uses: abatilo/actions-poetry@v3
+        uses: abatilo/actions-poetry@v4
         with:
           poetry-version: ${{ matrix.poetry-version }}
       - run: poetry install
@@ -64,7 +64,7 @@ jobs:
         with:
           python-version: "${{ matrix.python }}"
       - name: Install poetry
-        uses: abatilo/actions-poetry@v3
+        uses: abatilo/actions-poetry@v4
         with:
           poetry-version: latest
       - run: poetry install
