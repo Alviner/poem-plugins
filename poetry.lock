@@ -767,14 +767,14 @@ pretty = ["rich (>=12.6.0)"]
 
 [[package]]
 name = "gray"
-version = "0.15.0"
+version = "1.0.0"
 description = "Less uncompromising Python code formatter"
 optional = false
 python-versions = "*"
 groups = ["dev"]
 files = [
-    {file = "gray-0.15.0-py2.py3-none-any.whl", hash = "sha256:cfd22d008bcf372e490870bf518dd3d343198d35f4c9bab22cae301b284e4a0a"},
-    {file = "gray-0.15.0.tar.gz", hash = "sha256:3e2223f4497e8cea759514da9299863c039f03ba61a8d5a2c5982194567a9e5d"},
+    {file = "gray-1.0.0-py2.py3-none-any.whl", hash = "sha256:b9de75eda5c2208c4aa45abe44ad477e7ff103a8d40082c5fa31a9a207d8c0fe"},
+    {file = "gray-1.0.0.tar.gz", hash = "sha256:c264cc99cc872cab7a6cfe30dca42740479196f7729e3db8eed6a65c36f11391"},
 ]
 
 [package.dependencies]
@@ -785,11 +785,11 @@ ConfigArgParse = ">=1.5.3,<2"
 fixit = ">=2.1.0"
 isort = ">=5.10.1"
 pyupgrade = ">=2.31.0"
-rich = ">=12.6,<13.0"
-unify = ">=0.5"
+rich = ">=12.6,<15"
+string_fixer = ">=0.5.0"
 
 [package.extras]
-develop = ["pre-commit (>=2.12,<3.0)", "pylama (>=8.4.1,<8.5.0)", "pytest (>=7.0.1,<7.1.0)", "pytest-subtests (>=0.7.0,<0.8.0)", "wheel (>=0.37.1,<0.38.0)"]
+develop = ["pre-commit (>=2.12,<3.0)", "pylama (>=8.4.1,<8.5.0)", "pytest (>=7.0.1,<7.1.0)", "pytest-subtests (>=0.7.0,<0.8.0)", "setuptools", "wheel (>=0.37.1,<0.38.0)"]
 
 [[package]]
 name = "identify"
@@ -1852,6 +1852,28 @@ files = [
 ]
 
 [[package]]
+name = "string-fixer"
+version = "0.5.0"
+description = "Change quote style in Python files"
+optional = false
+python-versions = ">=3.8"
+groups = ["dev"]
+files = [
+    {file = "string_fixer-0.5.0-py3-none-any.whl", hash = "sha256:500747ad9bc625eb8057b11bc8698f96c7fa26f2cd530b4bc18986a03ac588e2"},
+    {file = "string_fixer-0.5.0.tar.gz", hash = "sha256:64d3f80896dc3fe45a96530a7751fdf802382240072b346770d14433057878f3"},
+]
+
+[package.dependencies]
+libcst = "*"
+tomli = "*"
+
+[package.extras]
+all = ["string_fixer[dev,dist,test]"]
+dev = ["ruff"]
+dist = ["build", "setuptools", "twine", "wheel"]
+test = ["pytest", "pytest-snapshot"]
+
+[[package]]
 name = "tokenize-rt"
 version = "5.2.0"
 description = "A wrapper around the stdlib `tokenize` which roundtrips."
@@ -1886,7 +1908,7 @@ files = [
     {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
     {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
 ]
-markers = {main = "python_version < \"3.11\"", dev = "python_full_version <= \"3.11.0a6\""}
+markers = {main = "python_version < \"3.11\""}
 
 [[package]]
 name = "tomlkit"
@@ -1958,31 +1980,6 @@ files = [
 [package.dependencies]
 mypy-extensions = ">=0.3.0"
 typing-extensions = ">=3.7.4"
-
-[[package]]
-name = "unify"
-version = "0.5"
-description = "Modifies strings to all use the same (single/double) quote where possible."
-optional = false
-python-versions = "*"
-groups = ["dev"]
-files = [
-    {file = "unify-0.5.tar.gz", hash = "sha256:8ddce812b2457212b7598fe574c9e6eb3ad69710f445391338270c7f8a71723c"},
-]
-
-[package.dependencies]
-untokenize = "*"
-
-[[package]]
-name = "untokenize"
-version = "0.1.1"
-description = "Transforms tokens into original source code (while preserving whitespace)."
-optional = false
-python-versions = "*"
-groups = ["dev"]
-files = [
-    {file = "untokenize-0.1.1.tar.gz", hash = "sha256:3865dbbbb8efb4bb5eaa72f1be7f3e0be00ea8b7f125c69cbd1f5fda926f37a2"},
-]
 
 [[package]]
 name = "urllib3"
@@ -2118,4 +2115,4 @@ test = ["big-O", "jaraco.functools", "jaraco.itertools", "jaraco.test", "more-it
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.9"
-content-hash = "818060819e03510bf6d3824a25d1140388e23bc199c5b83216cb0e6e1dccd1a2"
+content-hash = "2fde125a1f0ab6d809565e716edd30428f866d766335a9077a469b212047170f"
