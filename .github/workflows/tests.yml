@@ -10,7 +10,7 @@ jobs:
   pylama:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup python3.12
         uses: actions/setup-python@v5
         with:
@@ -31,7 +31,7 @@ jobs:
       matrix:
         poetry-version: ["latest", "2.0.1", "1.8.4"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup python3.12
         uses: actions/setup-python@v5
         with:
@@ -58,7 +58,7 @@ jobs:
           - "3.12"
           - "3.13"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup python${{ matrix.python }}
         uses: actions/setup-python@v5
         with:
